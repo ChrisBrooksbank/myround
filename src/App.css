@@ -1,83 +1,617 @@
+/* App.css - Component Styles for MyRound */
+
+/* ========================================
+   LAYOUT & CONTAINER
+   ======================================== */
+
 #root {
-  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
+
+.header {
+  background-color: var(--color-bg-secondary);
+  border-bottom: 2px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: var(--space-sm) 0;
+  max-width: 428px;
   margin: 0 auto;
-  padding: 2rem;
+}
+
+.nav-link {
+  position: relative;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  min-height: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.nav-link:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-tertiary);
+}
+
+.nav-link.active {
+  color: var(--color-primary);
+  background-color: var(--color-bg-tertiary);
+}
+
+.round-badge {
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  min-width: 20px;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* ========================================
+   ROUND PAGE LAYOUT
+   ======================================== */
+
+.round-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 428px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.round-page-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+  gap: var(--space-lg);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.name-section {
+  flex-shrink: 0;
 }
 
-.card {
-  padding: 2em;
+.drink-section {
+  flex: 1;
+  overflow-y: auto;
 }
 
-.read-the-docs {
-  color: #888;
+.order-section {
+  flex-shrink: 0;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
 }
 
-/* ===== DRINK BUTTON ===== */
+.order-section-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+  color: var(--color-text-primary);
+}
+
+/* ========================================
+   NAME INPUT
+   ======================================== */
+
+.name-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.name-input {
+  font-size: var(--font-size-lg);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  color: var(--color-text-primary);
+  min-height: var(--touch-target-min);
+  transition: border-color var(--transition-fast);
+}
+
+.name-input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.name-input.shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+.same-again-suggestion {
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.same-again-suggestion:hover {
+  background-color: var(--color-accent-hover);
+  transform: scale(1.02);
+}
+
+.same-again-suggestion:active {
+  transform: scale(0.98);
+}
+
+/* ========================================
+   DRINK GRID
+   ======================================== */
+
+.drink-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Category Tabs */
+.category-tabs {
+  display: flex;
+  gap: var(--space-xs);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: var(--space-xs);
+}
+
+.category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.category-tab {
+  flex-shrink: 0;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+}
+
+.category-tab:hover {
+  border-color: var(--color-border-hover);
+}
+
+.category-tab.active {
+  color: var(--color-text-primary);
+  border-color: currentColor;
+}
+
+/* Category-specific colors */
+.category-tab[data-category="pints"].active {
+  color: var(--color-category-pints);
+  border-color: var(--color-category-pints);
+}
+
+.category-tab[data-category="wine"].active {
+  color: var(--color-category-wine);
+  border-color: var(--color-category-wine);
+}
+
+.category-tab[data-category="spirits"].active {
+  color: var(--color-category-spirits);
+  border-color: var(--color-category-spirits);
+}
+
+.category-tab[data-category="cocktails"].active {
+  color: var(--color-category-cocktails);
+  border-color: var(--color-category-cocktails);
+}
+
+.category-tab[data-category="soft"].active {
+  color: var(--color-category-soft);
+  border-color: var(--color-category-soft);
+}
+
+.category-tab[data-category="shots"].active {
+  color: var(--color-category-shots);
+  border-color: var(--color-category-shots);
+}
+
+.category-tab[data-category="zero"].active {
+  color: var(--color-category-zero);
+  border-color: var(--color-category-zero);
+}
+
+/* Subcategory Pills */
+.subcategory-pills {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.subcategory-pill {
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 36px;
+}
+
+.subcategory-pill:hover {
+  background-color: var(--color-border-hover);
+}
+
+.subcategory-pill.active {
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+/* Drink Grid */
+.drink-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: var(--space-sm);
+}
+
 .drink-button {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  min-height: 90px;
-  min-width: 90px;
-  padding: 0.75rem;
-  background-color: #2a2a3e;
-  border: 2px solid #3a3a4e;
-  border-radius: 12px;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  min-height: var(--touch-target-large);
+  background-color: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: all 0.15s ease;
-  font-family: inherit;
+  transition: all var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .drink-button:hover {
-  background-color: #3a3a4e;
-  border-color: #4a4a5e;
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border-hover);
+  transform: translateY(-2px);
 }
 
 .drink-button:active {
   transform: scale(0.95);
-  background-color: #4a4a5e;
+  transition: transform 0.1s ease;
 }
 
 .drink-emoji {
-  font-size: 2rem;
+  font-size: var(--font-size-3xl);
   line-height: 1;
 }
 
 .drink-label {
-  font-size: 0.875rem;
+  font-size: var(--font-size-xs);
   font-weight: 500;
+  color: var(--color-text-secondary);
   text-align: center;
   line-height: 1.2;
-  color: rgba(255, 255, 255, 0.87);
+}
+
+.other-button {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-accent);
+}
+
+.other-button:hover {
+  border-color: var(--color-accent-hover);
+  background-color: var(--color-bg-secondary);
+}
+
+/* ========================================
+   ORDER LIST
+   ======================================== */
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.order-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.order-item-person {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.order-item-drink {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.order-item-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+}
+
+.quantity-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quantity-button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.quantity-button:active {
+  transform: scale(0.9);
+}
+
+.quantity-display {
+  min-width: 24px;
+  text-align: center;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.delete-button {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  background-color: var(--color-danger);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+.delete-button:active {
+  transform: scale(0.95);
+}
+
+/* ========================================
+   MODAL (Custom Drink Input)
+   ======================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: var(--space-lg);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  width: 100%;
+  max-width: 360px;
+  border: 2px solid var(--color-border);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+  color: var(--color-text-primary);
+}
+
+.custom-drink-input {
+  font-size: var(--font-size-lg);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-tertiary);
+  border: 2px solid var(--color-border);
+  color: var(--color-text-primary);
+  width: 100%;
+  margin-bottom: var(--space-md);
+}
+
+.custom-drink-input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.modal-button {
+  flex: 1;
+  padding: var(--space-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+}
+
+.modal-button-cancel {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+}
+
+.modal-button-cancel:hover {
+  background-color: var(--color-border-hover);
+  color: var(--color-text-primary);
+}
+
+.modal-button-confirm {
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.modal-button-confirm:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.modal-button-confirm:disabled {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.modal-button:active {
+  transform: scale(0.98);
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (min-width: 429px) {
+  .drink-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
+
+@media (max-width: 360px) {
+  .drink-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
+  .drink-button {
+    min-height: 80px;
+  }
+
+  .drink-emoji {
+    font-size: var(--font-size-2xl);
+  }
 }

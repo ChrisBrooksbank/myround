@@ -26,7 +26,7 @@
 - [x] Create src/components/OrderList.tsx rendering all current order items (spec: ordering-flow.md)
 - [x] Create src/pages/RoundPage.tsx integrating all ordering components (spec: ordering-flow.md)
 - [x] Create src/index.css with CSS custom properties for dark pub theme (spec: pwa-and-polish.md)
-- [ ] Create src/App.css with component styles, touch targets, category colors (spec: pwa-and-polish.md)
+- [x] Create src/App.css with component styles, touch targets, category colors (spec: pwa-and-polish.md)
 - [ ] Create src/App.tsx with router and context providers (spec: ordering-flow.md)
 
 ## Phase 3: Summary Screen
