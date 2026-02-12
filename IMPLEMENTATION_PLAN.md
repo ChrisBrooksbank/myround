@@ -12,7 +12,7 @@
 - [x] Install dependencies: react-router-dom, vite-plugin-pwa, workbox-window (spec: pwa-and-polish.md)
 - [x] Create src/types.ts with all TypeScript interfaces (spec: ordering-flow.md, summary-and-bar.md, regulars-and-groups.md)
 - [x] Create src/data/drinks.ts with ~80-100 UK pub drinks across 7 categories (spec: drinks-database.md)
-- [ ] Create src/lib/storage.ts with localStorage wrapper for rounds, regulars, groups, and history (spec: ordering-flow.md, regulars-and-groups.md)
+- [x] Create src/lib/storage.ts with localStorage wrapper for rounds, regulars, groups, and history (spec: ordering-flow.md, regulars-and-groups.md)
 
 ## Phase 2: Core Ordering Screen
 
