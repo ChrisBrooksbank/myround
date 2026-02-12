@@ -38,10 +38,10 @@ export function RoundPage() {
   };
 
   // Handle "same again" suggestion
-  const handleSameAgain = (drinkId: string) => {
+  const handleSameAgain = (drinkId: string, customDrinkName?: string) => {
     const trimmedName = name.trim();
     if (trimmedName) {
-      addOrder(trimmedName, drinkId);
+      addOrder(trimmedName, drinkId, customDrinkName);
       setName('');
 
       // Haptic feedback

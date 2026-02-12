@@ -7,13 +7,13 @@ import { getDrinkById } from '../data/drinks';
 interface NameInputProps {
   value: string;
   onChange: (value: string) => void;
-  onSameAgain?: (drinkId: string) => void;
+  onSameAgain?: (drinkId: string, customDrinkName?: string) => void;
   shake?: boolean;
   onShakeEnd?: () => void;
 }
 
 export function NameInput({ value, onChange, onSameAgain, shake, onShakeEnd }: NameInputProps) {
-  const [suggestion, setSuggestion] = useState<{ drinkId: string; drinkName: string } | null>(null);
+  const [suggestion, setSuggestion] = useState<{ drinkId: string; drinkName: string; customDrinkName?: string } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Auto-focus on mount
@@ -43,12 +43,21 @@ export function NameInput({ value, onChange, onSameAgain, shake, onShakeEnd }: N
       const lastDrink = getLastDrinkForPerson(value);
       if (lastDrink) {
         // Check if it's a custom drink or a standard drink
-        const drink = getDrinkById(lastDrink);
-        if (drink) {
-          setSuggestion({ drinkId: lastDrink, drinkName: drink.shortName });
+        if (lastDrink.customDrinkName) {
+          // Custom drink - show the custom name
+          setSuggestion({
+            drinkId: lastDrink.drinkId,
+            drinkName: lastDrink.customDrinkName,
+            customDrinkName: lastDrink.customDrinkName,
+          });
         } else {
-          // Custom drink
-          setSuggestion({ drinkId: lastDrink, drinkName: lastDrink });
+          // Standard drink - look up the drink name
+          const drink = getDrinkById(lastDrink.drinkId);
+          if (drink) {
+            setSuggestion({ drinkId: lastDrink.drinkId, drinkName: drink.shortName });
+          } else {
+            setSuggestion(null);
+          }
         }
       } else {
         setSuggestion(null);
@@ -60,7 +69,7 @@ export function NameInput({ value, onChange, onSameAgain, shake, onShakeEnd }: N
 
   const handleSuggestionClick = () => {
     if (suggestion && onSameAgain) {
-      onSameAgain(suggestion.drinkId);
+      onSameAgain(suggestion.drinkId, suggestion.customDrinkName);
     }
   };
 

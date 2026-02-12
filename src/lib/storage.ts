@@ -75,7 +75,7 @@ export function archiveCurrentRound(): void {
 }
 
 // Get the most recent drink for a specific person from history
-export function getLastDrinkForPerson(personName: string): string | null {
+export function getLastDrinkForPerson(personName: string): { drinkId: string; customDrinkName?: string } | null {
   const history = getRoundHistory();
   const normalizedName = personName.toLowerCase().trim();
 
@@ -86,7 +86,10 @@ export function getLastDrinkForPerson(personName: string): string | null {
       (o) => o.personName.toLowerCase().trim() === normalizedName
     );
     if (order) {
-      return order.customDrinkName || order.drinkId;
+      return {
+        drinkId: order.drinkId,
+        customDrinkName: order.customDrinkName,
+      };
     }
   }
 
