@@ -70,7 +70,7 @@
 
 ## Verification Checklist
 
-- [ ] App loads with full drinks database visible (spec: drinks-database.md)
+- [x] App loads with full drinks database visible (spec: drinks-database.md)
 - [ ] Type name + tap drink = order added, name auto-clears (spec: ordering-flow.md)
 - [ ] Tap drink without name = name input shakes/focuses (spec: ordering-flow.md)
 - [ ] Same person + same drink = quantity increments (dedup works) (spec: ordering-flow.md)
