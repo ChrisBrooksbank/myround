@@ -1,5 +1,5 @@
 // UK Pub Drinks Database
-// ~150 drinks across 7 categories with subcategories for Pints and Wine
+// ~167 drinks across 7 categories with subcategories for Pints and Wine
 
 import type { Drink } from '../types';
 
@@ -26,6 +26,9 @@ export const drinks: Drink[] = [
   { id: 'cruzcampo', name: 'Cruzcampo', shortName: 'Cruzcampo', emoji: '🍺', category: 'pints', subcategory: 'Lager' },
   { id: 'asahi', name: 'Asahi', shortName: 'Asahi', emoji: '🍺', category: 'pints', subcategory: 'Lager' },
   { id: 'corona', name: 'Corona', shortName: 'Corona', emoji: '🍺', category: 'pints', subcategory: 'Lager' },
+  { id: 'staropramen', name: 'Staropramen', shortName: 'Staro', emoji: '🍺', category: 'pints', subcategory: 'Lager' },
+  { id: 'pravha', name: 'Pravha', shortName: 'Pravha', emoji: '🍺', category: 'pints', subcategory: 'Lager' },
+  { id: 'amstel', name: 'Amstel', shortName: 'Amstel', emoji: '🍺', category: 'pints', subcategory: 'Lager' },
 
   // Subcategory: Ale
   { id: 'doom-bar', name: 'Doom Bar', shortName: 'Doom Bar', emoji: '🍺', category: 'pints', subcategory: 'Ale' },
@@ -52,6 +55,18 @@ export const drinks: Drink[] = [
   { id: 'murphys', name: "Murphy's", shortName: "Murphy's", emoji: '🍺', category: 'pints', subcategory: 'Stout' },
   { id: 'stout', name: 'Stout', shortName: 'Stout', emoji: '🍺', category: 'pints', subcategory: 'Stout' },
   { id: 'beamish', name: 'Beamish', shortName: 'Beamish', emoji: '🍺', category: 'pints', subcategory: 'Stout' },
+
+  // Subcategory: Belgian
+  { id: 'leffe-blonde', name: 'Leffe Blonde', shortName: 'Leffe', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
+  { id: 'delirium-tremens', name: 'Delirium Tremens', shortName: 'Delirium', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
+  { id: 'hoegaarden', name: 'Hoegaarden', shortName: 'Hoegaarden', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
+  { id: 'duvel', name: 'Duvel', shortName: 'Duvel', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
+  { id: 'chimay', name: 'Chimay', shortName: 'Chimay', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
+  { id: 'affligem', name: 'Affligem Blonde', shortName: 'Affligem', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
+  { id: 'westmalle', name: 'Westmalle Tripel', shortName: 'Westmalle', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
+  { id: 'la-chouffe', name: 'La Chouffe', shortName: 'La Chouffe', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
+  { id: 'kwak', name: 'Kwak', shortName: 'Kwak', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
+  { id: 'jupiler', name: 'Jupiler', shortName: 'Jupiler', emoji: '🍺', category: 'pints', subcategory: 'Belgian' },
 
   // Subcategory: Cider
   { id: 'strongbow', name: 'Strongbow', shortName: 'Strongbow', emoji: '🍺', category: 'pints', subcategory: 'Cider' },
@@ -188,6 +203,7 @@ export const drinks: Drink[] = [
   { id: 'old-mout-zero', name: 'Old Mout 0%', shortName: 'Old Mout 0%', emoji: '🍺', category: 'zero', subcategory: '' },
   { id: 'gordons-zero', name: "Gordon's 0.0% G&T", shortName: "Gordon's 0.0", emoji: '🍸', category: 'zero', subcategory: '' },
   { id: 'kopparberg-zero', name: 'Kopparberg 0%', shortName: 'Kopparbg 0%', emoji: '🍺', category: 'zero', subcategory: '' },
+  { id: 'leffe-zero', name: 'Leffe 0.0', shortName: 'Leffe 0.0', emoji: '🍺', category: 'zero', subcategory: '' },
 ];
 
 // Helper function to get drinks by category
