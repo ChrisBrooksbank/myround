@@ -1,7 +1,7 @@
-#Requires -Version 7
+#Requires -Version 5.1
 <#
 .SYNOPSIS
-    Ralph Wiggum Loop - Fresh context per iteration (PowerShell 7)
+    Ralph Wiggum Loop - Fresh context per iteration
 .DESCRIPTION
     Repeatedly feeds prompts to Claude with fresh context each iteration.
     Progress is stored in files and git history, not in the LLM context window.
