@@ -8,6 +8,7 @@ import { RoundPage } from './pages/RoundPage';
 import { SummaryPage } from './pages/SummaryPage';
 import { RegularsPage } from './pages/RegularsPage';
 import { ReloadPrompt } from './components/ReloadPrompt';
+import './App.css';
 
 function App() {
   return (
