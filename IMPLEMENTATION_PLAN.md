@@ -79,9 +79,9 @@
 - [x] Tap drinks on summary to tick off with strikethrough and progress update (spec: summary-and-bar.md)
 - [x] "Done" button archives round, navigates back to empty round (spec: summary-and-bar.md)
 - [x] Type name from previous round = "same again" suggestion appears (spec: ordering-flow.md)
-- [ ] Add regular with 2-3 favorites in /regulars (spec: regulars-and-groups.md)
-- [ ] Tap regular quick-add = favorite picker shown (spec: regulars-and-groups.md)
-- [ ] npm run build = check PWA manifest in build output (spec: pwa-and-polish.md)
+- [x] Add regular with 2-3 favorites in /regulars (spec: regulars-and-groups.md)
+- [x] Tap regular quick-add = favorite picker shown (spec: regulars-and-groups.md)
+- [x] npm run build = check PWA manifest in build output (spec: pwa-and-polish.md)
 - [ ] Refresh after build = app works offline (spec: pwa-and-polish.md)
 
 ## Completed
