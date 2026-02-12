@@ -82,7 +82,7 @@
 - [x] Add regular with 2-3 favorites in /regulars (spec: regulars-and-groups.md)
 - [x] Tap regular quick-add = favorite picker shown (spec: regulars-and-groups.md)
 - [x] npm run build = check PWA manifest in build output (spec: pwa-and-polish.md)
-- [ ] Refresh after build = app works offline (spec: pwa-and-polish.md)
+- [x] Refresh after build = app works offline (spec: pwa-and-polish.md)
 
 ## Completed
 
