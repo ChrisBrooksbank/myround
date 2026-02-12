@@ -22,7 +22,7 @@
 - [x] Create src/components/DrinkButton.tsx with emoji, label, and press animation (spec: drinks-database.md)
 - [x] Create src/components/DrinkGrid.tsx with category tabs, subcategory pills, drink grid, and "Other" button (spec: ordering-flow.md, drinks-database.md)
 - [x] Create src/components/NameInput.tsx with auto-focus, auto-clear, and "same again" suggestion (spec: ordering-flow.md)
-- [ ] Create src/components/OrderItem.tsx with person name, drink, quantity controls, and delete button (spec: ordering-flow.md)
+- [x] Create src/components/OrderItem.tsx with person name, drink, quantity controls, and delete button (spec: ordering-flow.md)
 - [ ] Create src/components/OrderList.tsx rendering all current order items (spec: ordering-flow.md)
 - [ ] Create src/pages/RoundPage.tsx integrating all ordering components (spec: ordering-flow.md)
 - [ ] Create src/index.css with CSS custom properties for dark pub theme (spec: pwa-and-polish.md)
