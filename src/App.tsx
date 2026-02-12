@@ -6,6 +6,7 @@ import { RegularsProvider } from './hooks/useRegulars';
 import { Header } from './components/Header';
 import { RoundPage } from './pages/RoundPage';
 import { SummaryPage } from './pages/SummaryPage';
+import { RegularsPage } from './pages/RegularsPage';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<RoundPage />} />
                 <Route path="/summary" element={<SummaryPage />} />
-                <Route path="/regulars" element={<div>Regulars Page (Coming Soon)</div>} />
+                <Route path="/regulars" element={<RegularsPage />} />
               </Routes>
             </main>
           </div>

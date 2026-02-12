@@ -44,7 +44,7 @@
 - [x] Add favorite drink picker popover shown on regular tap (2-3 drinks per regular) (spec: regulars-and-groups.md)
 - [x] Create src/components/RegularEditor.tsx for adding/editing/deleting regulars (spec: regulars-and-groups.md)
 - [x] Add multiple favorite drinks selector (array of 2-3 drinkIds) to editor (spec: regulars-and-groups.md)
-- [ ] Create src/pages/RegularsPage.tsx with regular list and editor (spec: regulars-and-groups.md)
+- [x] Create src/pages/RegularsPage.tsx with regular list and editor (spec: regulars-and-groups.md)
 - [ ] Add groups feature: create/edit/delete groups with member selection (spec: regulars-and-groups.md)
 - [ ] Add group quick-add button to pre-fill round with members' first favorites (spec: regulars-and-groups.md)
 
