@@ -16,7 +16,7 @@
 
 ## Phase 2: Core Ordering Screen
 
-- [ ] Create src/hooks/useRound.ts with round state, dedup logic, history persistence (spec: ordering-flow.md)
+- [x] Create src/hooks/useRound.ts with round state, dedup logic, history persistence (spec: ordering-flow.md)
 - [ ] Create src/hooks/useRegulars.ts with regulars/groups state and persistence (spec: regulars-and-groups.md)
 - [ ] Create src/components/Header.tsx with navigation and round count badge (spec: ordering-flow.md)
 - [ ] Create src/components/DrinkButton.tsx with emoji, label, and press animation (spec: drinks-database.md)
