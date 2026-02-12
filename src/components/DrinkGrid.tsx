@@ -35,7 +35,7 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkClick, recentDrinkIds = 
     ? drinks.filter(drink =>
         drink.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         drink.shortName.toLowerCase().includes(searchQuery.toLowerCase())
-      ).sort((a, b) => a.name.localeCompare(b.name))
+      ).sort((a, b) => a.shortName.localeCompare(b.shortName))
     : [];
 
   // Get drinks for "Recent" tab
