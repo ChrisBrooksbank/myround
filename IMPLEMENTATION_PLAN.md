@@ -24,7 +24,7 @@
 - [x] Create src/components/NameInput.tsx with auto-focus, auto-clear, and "same again" suggestion (spec: ordering-flow.md)
 - [x] Create src/components/OrderItem.tsx with person name, drink, quantity controls, and delete button (spec: ordering-flow.md)
 - [x] Create src/components/OrderList.tsx rendering all current order items (spec: ordering-flow.md)
-- [ ] Create src/pages/RoundPage.tsx integrating all ordering components (spec: ordering-flow.md)
+- [x] Create src/pages/RoundPage.tsx integrating all ordering components (spec: ordering-flow.md)
 - [ ] Create src/index.css with CSS custom properties for dark pub theme (spec: pwa-and-polish.md)
 - [ ] Create src/App.css with component styles, touch targets, category colors (spec: pwa-and-polish.md)
 - [ ] Create src/App.tsx with router and context providers (spec: ordering-flow.md)
