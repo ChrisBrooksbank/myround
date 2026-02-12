@@ -66,7 +66,7 @@
 - [x] Test and refine "same again" suggestion logic across multiple rounds (spec: ordering-flow.md)
 - [x] Test mobile responsiveness for 360-428px viewport widths (spec: pwa-and-polish.md)
 - [x] Verify 90px minimum touch targets across all interactive elements (spec: pwa-and-polish.md)
-- [ ] Test category color coding across all 7 categories (spec: drinks-database.md, pwa-and-polish.md)
+- [x] Test category color coding across all 7 categories (spec: drinks-database.md, pwa-and-polish.md)
 
 ## Verification Checklist
 
