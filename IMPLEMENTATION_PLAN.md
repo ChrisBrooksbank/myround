@@ -41,7 +41,7 @@
 ## Phase 4: Regulars & Groups
 
 - [x] Create src/components/RegularsPicker.tsx with quick-add buttons at top of RoundPage (spec: regulars-and-groups.md)
-- [ ] Add favorite drink picker popover shown on regular tap (2-3 drinks per regular) (spec: regulars-and-groups.md)
+- [x] Add favorite drink picker popover shown on regular tap (2-3 drinks per regular) (spec: regulars-and-groups.md)
 - [ ] Create src/components/RegularEditor.tsx for adding/editing/deleting regulars (spec: regulars-and-groups.md)
 - [ ] Add multiple favorite drinks selector (array of 2-3 drinkIds) to editor (spec: regulars-and-groups.md)
 - [ ] Create src/pages/RegularsPage.tsx with regular list and editor (spec: regulars-and-groups.md)
