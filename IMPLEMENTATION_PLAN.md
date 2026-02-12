@@ -50,7 +50,7 @@
 
 ## Phase 5: PWA Configuration
 
-- [ ] Configure vite-plugin-pwa in vite.config.ts with workbox strategies (spec: pwa-and-polish.md)
+- [x] Configure vite-plugin-pwa in vite.config.ts with workbox strategies (spec: pwa-and-polish.md)
 - [ ] Create public/manifest.json with app metadata, theme colors, icons (spec: pwa-and-polish.md)
 - [ ] Add public/icon-192.png and public/icon-512.png (spec: pwa-and-polish.md)
 - [ ] Create src/components/ReloadPrompt.tsx for PWA update notifications (spec: pwa-and-polish.md)
