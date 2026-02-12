@@ -90,7 +90,13 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkClick }: DrinkGridProps)
         {/* "Other" button for custom drinks */}
         <button
           className="drink-button other-button"
-          onClick={onCustomDrinkClick}
+          onClick={() => {
+            // Haptic feedback
+            if (navigator.vibrate) {
+              navigator.vibrate(30);
+            }
+            onCustomDrinkClick();
+          }}
           aria-label="Add custom drink"
         >
           <span className="drink-emoji">➕</span>

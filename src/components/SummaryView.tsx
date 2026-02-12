@@ -107,6 +107,10 @@ export function SummaryView({ orders, viewMode, onToggleOrdered }: SummaryViewPr
 
   // Handle clicking on a drink group (marks all orders in that group)
   const handleDrinkGroupClick = (group: DrinkGroup) => {
+    // Haptic feedback
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
     // Toggle all orders in this group to match the opposite of current state
     const shouldBeOrdered = !group.allOrdered;
     group.orders.forEach(order => {
@@ -118,6 +122,10 @@ export function SummaryView({ orders, viewMode, onToggleOrdered }: SummaryViewPr
 
   // Handle clicking on a person group (marks all their orders)
   const handlePersonGroupClick = (group: PersonGroup) => {
+    // Haptic feedback
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
     // Toggle all orders for this person to match the opposite of current state
     const shouldBeOrdered = !group.allOrdered;
     group.orders.forEach(order => {

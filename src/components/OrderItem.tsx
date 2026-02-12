@@ -14,14 +14,26 @@ export function OrderItem({ order, onUpdateQuantity, onRemove }: OrderItemProps)
   const drinkName = order.customDrinkName || drink?.name || 'Unknown';
 
   const handleIncrement = () => {
+    // Haptic feedback
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
     onUpdateQuantity(order.id, order.quantity + 1);
   };
 
   const handleDecrement = () => {
+    // Haptic feedback
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
     onUpdateQuantity(order.id, order.quantity - 1);
   };
 
   const handleRemove = () => {
+    // Haptic feedback
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
     onRemove(order.id);
   };
 
