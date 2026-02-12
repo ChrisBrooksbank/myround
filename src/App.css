@@ -1375,6 +1375,187 @@
   color: var(--color-text-primary);
 }
 
+/* Regulars/Groups Sections */
+.regulars-section,
+.groups-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.section-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* Groups List */
+.add-group-button {
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+  white-space: nowrap;
+}
+
+.add-group-button:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.add-group-button:active {
+  transform: scale(0.98);
+}
+
+.groups-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.group-card {
+  background-color: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.group-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.group-name {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.edit-group-button {
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-tertiary);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 36px;
+}
+
+.edit-group-button:hover {
+  background-color: var(--color-border-hover);
+  color: var(--color-text-primary);
+}
+
+.edit-group-button:active {
+  transform: scale(0.98);
+}
+
+.group-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.group-member-chip {
+  padding: var(--space-xs) var(--space-md);
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.group-empty-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+
+/* Group Editor */
+.group-editor {
+  max-width: 500px;
+}
+
+.member-selection-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-height: 300px;
+  overflow-y: auto;
+  padding: var(--space-xs);
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-md);
+}
+
+.member-selection-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+  width: 100%;
+  text-align: left;
+}
+
+.member-selection-item:hover {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border-hover);
+}
+
+.member-selection-item.selected {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.member-selection-item.selected:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.member-name {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.member-check {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
+
+.editor-hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  padding: var(--space-md);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
 /* ========================================
    RESPONSIVE ADJUSTMENTS
    ======================================== */
