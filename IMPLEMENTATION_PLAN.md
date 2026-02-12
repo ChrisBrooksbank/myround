@@ -74,7 +74,7 @@
 - [x] Type name + tap drink = order added, name auto-clears (spec: ordering-flow.md)
 - [x] Tap drink without name = name input shakes/focuses (spec: ordering-flow.md)
 - [x] Same person + same drink = quantity increments (dedup works) (spec: ordering-flow.md)
-- [ ] "Other" button = custom drink text input works (spec: ordering-flow.md)
+- [x] "Other" button = custom drink text input works (spec: ordering-flow.md)
 - [ ] Navigate to /summary = by-drink view default, can toggle to by-person (spec: summary-and-bar.md)
 - [ ] Tap drinks on summary to tick off with strikethrough and progress update (spec: summary-and-bar.md)
 - [ ] "Done" button archives round, navigates back to empty round (spec: summary-and-bar.md)
