@@ -127,12 +127,12 @@ export const drinks: Drink[] = [
 
 // Helper function to get drinks by category
 export const getDrinksByCategory = (category: string): Drink[] => {
-  return drinks.filter(drink => drink.category === category);
+  return drinks.filter(drink => drink.category === category).sort((a, b) => a.name.localeCompare(b.name));
 };
 
 // Helper function to get drinks by category and subcategory
 export const getDrinksByCategoryAndSubcategory = (category: string, subcategory: string): Drink[] => {
-  return drinks.filter(drink => drink.category === category && drink.subcategory === subcategory);
+  return drinks.filter(drink => drink.category === category && drink.subcategory === subcategory).sort((a, b) => a.name.localeCompare(b.name));
 };
 
 // Helper function to get all subcategories for a category

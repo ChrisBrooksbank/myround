@@ -5,6 +5,8 @@ import { drinks, getDrinkById } from '../data/drinks';
 import { useRegulars } from '../hooks/useRegulars';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 
+const MAX_FAVORITES = 6;
+
 interface RegularEditorProps {
   regularId?: string | null;
   onClose: () => void;
@@ -39,12 +41,13 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
   }, [regularId]);
 
   // Filter drinks based on search query
-  const filteredDrinks = searchQuery.trim()
+  const filteredDrinks = (searchQuery.trim()
     ? drinks.filter(drink =>
         drink.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         drink.shortName.toLowerCase().includes(searchQuery.toLowerCase())
       )
-    : drinks;
+    : drinks
+  ).sort((a, b) => a.name.localeCompare(b.name));
 
   // Handle drink selection
   const handleDrinkToggle = (drinkId: string) => {
@@ -53,7 +56,7 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
       setSelectedDrinkIds(prev => prev.filter(id => id !== drinkId));
     } else {
       // Add drink (max 3)
-      if (selectedDrinkIds.length < 3) {
+      if (selectedDrinkIds.length < MAX_FAVORITES) {
         setSelectedDrinkIds(prev => [...prev, drinkId]);
       }
     }
@@ -82,7 +85,7 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
   };
 
   // Check if form is valid
-  const isValid = name.trim() !== '' && selectedDrinkIds.length > 0 && selectedDrinkIds.length <= 3;
+  const isValid = name.trim() !== '' && selectedDrinkIds.length > 0 && selectedDrinkIds.length <= MAX_FAVORITES;
 
   // Focus traps for modals
   const mainModalRef = useFocusTrap(true, onClose);
@@ -112,7 +115,7 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
         {/* Favorite Drinks */}
         <div className="editor-section">
           <label className="editor-label">
-            Favorite Drinks ({selectedDrinkIds.length}/3)
+            Favorite Drinks ({selectedDrinkIds.length}/{MAX_FAVORITES})
           </label>
 
           {/* Selected drinks display */}
@@ -143,7 +146,7 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
           <button
             className="editor-button-secondary"
             onClick={() => setShowDrinkPicker(true)}
-            disabled={selectedDrinkIds.length >= 3}
+            disabled={selectedDrinkIds.length >= MAX_FAVORITES}
           >
             {selectedDrinkIds.length === 0 ? 'Select Drinks' : 'Add More Drinks'}
           </button>
@@ -197,7 +200,7 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
             <div className="drink-picker-list">
               {filteredDrinks.map(drink => {
                 const isSelected = selectedDrinkIds.includes(drink.id);
-                const canSelect = selectedDrinkIds.length < 3 || isSelected;
+                const canSelect = selectedDrinkIds.length < MAX_FAVORITES || isSelected;
 
                 return (
                   <button
