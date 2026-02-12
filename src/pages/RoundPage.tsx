@@ -11,7 +11,7 @@ import { getDrinkById } from '../data/drinks';
 import type { Drink } from '../types';
 
 export function RoundPage() {
-  const { round, addOrder, updateQuantity, removeOrder } = useRound();
+  const { round, addOrder, updateQuantity, removeOrder, undoCompleteRound, canUndo } = useRound();
   const [name, setName] = useState('');
   const [shake, setShake] = useState(false);
   const [showCustomInput, setShowCustomInput] = useState(false);
@@ -185,6 +185,16 @@ export function RoundPage() {
           {announcement}
         </div>
       </div>
+
+      {/* Undo Toast */}
+      {canUndo && (
+        <div className="undo-toast">
+          <span>Round completed</span>
+          <button className="undo-toast-button" onClick={undoCompleteRound}>
+            Undo
+          </button>
+        </div>
+      )}
 
       {/* Custom Drink Modal */}
       {showCustomInput && (

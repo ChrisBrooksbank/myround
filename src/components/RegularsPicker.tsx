@@ -104,8 +104,8 @@ export function RegularsPicker() {
             </button>
           ))}
 
-          {/* Regular buttons */}
-          {regulars.map(regular => (
+          {/* Regular buttons (alphabetical) */}
+          {[...regulars].sort((a, b) => a.name.localeCompare(b.name)).map(regular => (
             <button
               key={regular.id}
               className="regular-button"

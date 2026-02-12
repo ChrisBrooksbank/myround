@@ -1,9 +1,9 @@
 // Round state management hook with deduplication and history persistence
 
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, useRef, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
 import type { Round, OrderLine } from '../types';
-import { getCurrentRound, saveCurrentRound, clearCurrentRound, addToHistory } from '../lib/storage';
+import { getCurrentRound, saveCurrentRound, clearCurrentRound, addToHistory, removeLastFromHistory } from '../lib/storage';
 
 // Generate a unique ID
 function generateId(): string {
@@ -27,6 +27,8 @@ interface RoundContextValue {
   toggleOrdered: (orderId: string) => void;
   completeRound: () => void;
   clearRound: () => void;
+  undoCompleteRound: () => void;
+  canUndo: boolean;
 }
 
 const RoundContext = createContext<RoundContextValue | null>(null);
@@ -138,14 +140,41 @@ export function RoundProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  // Undo: track whether the last action was a complete, with a 10s timeout
+  const [canUndo, setCanUndo] = useState(false);
+  const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Undo last round completion: pop from history, restore as current round
+  const undoCompleteRound = () => {
+    const restored = removeLastFromHistory();
+    if (restored) {
+      // Remove completedAt to make it a live round again
+      const { completedAt: _, ...liveRound } = restored;
+      setRound(liveRound as Round);
+      saveCurrentRound(liveRound as Round);
+      setCanUndo(false);
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    }
+  };
+
+  // Wrap completeRound to enable undo window
+  const completeRoundWithUndo = () => {
+    completeRound();
+    setCanUndo(true);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    undoTimerRef.current = setTimeout(() => setCanUndo(false), 10000);
+  };
+
   const value: RoundContextValue = {
     round,
     addOrder,
     removeOrder,
     updateQuantity,
     toggleOrdered,
-    completeRound,
+    completeRound: completeRoundWithUndo,
     clearRound,
+    undoCompleteRound,
+    canUndo,
   };
 
   return <RoundContext.Provider value={value}>{children}</RoundContext.Provider>;

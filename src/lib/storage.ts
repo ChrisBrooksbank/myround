@@ -62,6 +62,14 @@ export function addToHistory(round: Round): void {
   saveRoundHistory(history);
 }
 
+export function removeLastFromHistory(): Round | null {
+  const history = getRoundHistory();
+  if (history.length === 0) return null;
+  const last = history.pop()!;
+  saveRoundHistory(history);
+  return last;
+}
+
 // Get the most recent drink for a specific person from history
 export function getLastDrinkForPerson(personName: string): { drinkId: string; customDrinkName?: string } | null {
   const history = getRoundHistory();

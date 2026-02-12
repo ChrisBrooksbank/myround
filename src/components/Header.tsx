@@ -33,6 +33,12 @@ export function Header() {
         >
           Regulars
         </Link>
+        <Link
+          to="/history"
+          className={`nav-link ${location.pathname === '/history' ? 'active' : ''}`}
+        >
+          History
+        </Link>
       </nav>
     </header>
   );

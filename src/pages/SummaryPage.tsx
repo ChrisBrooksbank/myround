@@ -9,6 +9,7 @@ export function SummaryPage() {
   const navigate = useNavigate();
   const { round, toggleOrdered, completeRound } = useRound();
   const [viewMode, setViewMode] = useState<'by-drink' | 'by-person'>('by-drink');
+  const [showDoneConfirm, setShowDoneConfirm] = useState(false);
 
   // Handle "Done" button - archive round and navigate back
   const handleDone = () => {
@@ -43,9 +44,35 @@ export function SummaryPage() {
 
       {round.orders.length > 0 && (
         <div className="summary-page-footer">
-          <button className="done-button" onClick={handleDone}>
+          <button className="done-button" onClick={() => setShowDoneConfirm(true)}>
             ✓ Done
           </button>
+        </div>
+      )}
+
+      {/* Done Confirmation Modal */}
+      {showDoneConfirm && (
+        <div className="modal-overlay" onClick={() => setShowDoneConfirm(false)}>
+          <div className="modal-content delete-confirm-modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="modal-title">Complete Round?</h3>
+            <p className="delete-confirm-text">
+              This will clear the current round ({round.orders.length} {round.orders.length === 1 ? 'order' : 'orders'}) and save it to history.
+            </p>
+            <div className="modal-buttons">
+              <button
+                className="modal-button modal-button-cancel"
+                onClick={() => setShowDoneConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="modal-button modal-button-confirm"
+                onClick={handleDone}
+              >
+                Complete
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
