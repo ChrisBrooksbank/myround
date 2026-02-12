@@ -593,6 +593,162 @@
 }
 
 /* ========================================
+   SUMMARY VIEW
+   ======================================== */
+
+.summary-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-md);
+  max-width: 428px;
+  margin: 0 auto;
+}
+
+.summary-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+}
+
+.summary-empty-text {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.summary-progress {
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 2px solid var(--color-border);
+}
+
+.summary-progress-text {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.summary-progress-bar {
+  width: 100%;
+  height: 12px;
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.summary-progress-fill {
+  height: 100%;
+  background-color: var(--color-success);
+  transition: width var(--transition-base);
+  border-radius: var(--radius-full);
+}
+
+.summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.summary-item {
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.summary-item:hover {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border-hover);
+  transform: translateY(-2px);
+}
+
+.summary-item:active {
+  transform: scale(0.98);
+}
+
+.summary-item.ordered {
+  opacity: 0.6;
+  background-color: var(--color-bg-tertiary);
+}
+
+.summary-item.ordered .summary-item-content {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.summary-item-main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.summary-emoji {
+  font-size: var(--font-size-4xl);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.summary-item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.summary-drink-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.summary-quantity {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.summary-drink-name {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  word-break: break-word;
+}
+
+.summary-people {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.summary-person-name {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  word-break: break-word;
+}
+
+.summary-drinks {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* ========================================
    RESPONSIVE ADJUSTMENTS
    ======================================== */
 

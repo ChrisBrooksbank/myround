@@ -31,7 +31,7 @@
 
 ## Phase 3: Summary Screen
 
-- [ ] Create src/components/SummaryView.tsx with by-drink and by-person views (spec: summary-and-bar.md)
+- [x] Create src/components/SummaryView.tsx with by-drink and by-person views (spec: summary-and-bar.md)
 - [ ] Add tick-off functionality with strikethrough on tap and ordered state tracking (spec: summary-and-bar.md)
 - [ ] Add progress indicator showing completed vs total drinks (spec: summary-and-bar.md)
 - [ ] Create src/pages/SummaryPage.tsx with view toggle and "Done" button (spec: summary-and-bar.md)
