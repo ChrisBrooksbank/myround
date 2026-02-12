@@ -62,21 +62,6 @@ export function addToHistory(round: Round): void {
   saveRoundHistory(history);
 }
 
-export function archiveCurrentRound(): void {
-  const currentRound = getCurrentRound();
-  if (currentRound) {
-    // Mark round as completed
-    const completedRound: Round = {
-      ...currentRound,
-      completedAt: new Date().toISOString(),
-    };
-    // Add to history
-    addToHistory(completedRound);
-    // Clear current round
-    clearCurrentRound();
-  }
-}
-
 // Get the most recent drink for a specific person from history
 export function getLastDrinkForPerson(personName: string): { drinkId: string; customDrinkName?: string } | null {
   const history = getRoundHistory();
