@@ -55,7 +55,7 @@
 - [x] Add public/icon-192.png and public/icon-512.png (spec: pwa-and-polish.md)
 - [x] Create src/components/ReloadPrompt.tsx for PWA update notifications (spec: pwa-and-polish.md)
 - [x] Add ReloadPrompt to App.tsx (spec: pwa-and-polish.md)
-- [ ] Test installability and offline functionality (spec: pwa-and-polish.md)
+- [x] Test installability and offline functionality (spec: pwa-and-polish.md)
 
 ## Phase 6: Polish & Refinement
 
