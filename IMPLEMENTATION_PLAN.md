@@ -18,7 +18,7 @@
 
 - [x] Create src/hooks/useRound.ts with round state, dedup logic, history persistence (spec: ordering-flow.md)
 - [x] Create src/hooks/useRegulars.ts with regulars/groups state and persistence (spec: regulars-and-groups.md)
-- [ ] Create src/components/Header.tsx with navigation and round count badge (spec: ordering-flow.md)
+- [x] Create src/components/Header.tsx with navigation and round count badge (spec: ordering-flow.md)
 - [ ] Create src/components/DrinkButton.tsx with emoji, label, and press animation (spec: drinks-database.md)
 - [ ] Create src/components/DrinkGrid.tsx with category tabs, subcategory pills, drink grid, and "Other" button (spec: ordering-flow.md, drinks-database.md)
 - [ ] Create src/components/NameInput.tsx with auto-focus, auto-clear, and "same again" suggestion (spec: ordering-flow.md)
