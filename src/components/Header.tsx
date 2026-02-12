@@ -7,7 +7,7 @@ export function Header() {
   const { round } = useRound();
   const location = useLocation();
 
-  const orderCount = round.orders.length;
+  const orderCount = round.orders.reduce((sum, o) => sum + o.quantity, 0);
 
   return (
     <header className="header">

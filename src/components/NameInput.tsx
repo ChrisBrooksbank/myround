@@ -23,16 +23,16 @@ export function NameInput({ value, onChange, onSameAgain, shake, onShakeEnd }: N
 
   // Handle shake: focus input and listen for animation end
   useEffect(() => {
-    if (shake && inputRef.current) {
-      // Focus the input when shake is triggered
-      inputRef.current.focus();
+    const el = inputRef.current;
+    if (shake && el) {
+      el.focus();
 
       const handleAnimationEnd = () => {
         onShakeEnd?.();
       };
-      inputRef.current.addEventListener('animationend', handleAnimationEnd);
+      el.addEventListener('animationend', handleAnimationEnd);
       return () => {
-        inputRef.current?.removeEventListener('animationend', handleAnimationEnd);
+        el.removeEventListener('animationend', handleAnimationEnd);
       };
     }
   }, [shake, onShakeEnd]);

@@ -24,16 +24,18 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  // Update form when regularId changes
+  // Update form when regularId changes (only depend on regularId to avoid resetting on every render)
   useEffect(() => {
-    if (existingRegular) {
-      setName(existingRegular.name);
-      setSelectedDrinkIds(existingRegular.favouriteDrinkIds);
+    const reg = regularId ? regulars.find(r => r.id === regularId) : null;
+    if (reg) {
+      setName(reg.name);
+      setSelectedDrinkIds(reg.favouriteDrinkIds);
     } else {
       setName('');
       setSelectedDrinkIds([]);
     }
-  }, [regularId, existingRegular]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [regularId]);
 
   // Filter drinks based on search query
   const filteredDrinks = searchQuery.trim()

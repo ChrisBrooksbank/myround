@@ -21,16 +21,18 @@ export function GroupEditor({ groupId, onClose }: GroupEditorProps) {
   );
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  // Update form when groupId changes
+  // Update form when groupId changes (only depend on groupId to avoid resetting on every render)
   useEffect(() => {
-    if (existingGroup) {
-      setName(existingGroup.name);
-      setSelectedMemberIds(existingGroup.memberIds);
+    const grp = groupId ? groups.find(g => g.id === groupId) : null;
+    if (grp) {
+      setName(grp.name);
+      setSelectedMemberIds(grp.memberIds);
     } else {
       setName('');
       setSelectedMemberIds([]);
     }
-  }, [groupId, existingGroup]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupId]);
 
   // Handle member selection
   const handleMemberToggle = (regularId: string) => {

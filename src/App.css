@@ -13,6 +13,18 @@
   overflow-x: hidden;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 /* ========================================
    HEADER & NAVIGATION
    ======================================== */

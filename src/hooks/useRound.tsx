@@ -3,7 +3,7 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
 import type { Round, OrderLine } from '../types';
-import { getCurrentRound, saveCurrentRound, clearCurrentRound, archiveCurrentRound } from '../lib/storage';
+import { getCurrentRound, saveCurrentRound, clearCurrentRound, addToHistory } from '../lib/storage';
 
 // Generate a unique ID
 function generateId(): string {
@@ -119,7 +119,12 @@ export function RoundProvider({ children }: { children: ReactNode }) {
 
   // Complete round (archive to history and start fresh)
   const completeRound = () => {
-    archiveCurrentRound();
+    // Archive the current React state directly (not from localStorage which may be stale)
+    const completedRound: Round = {
+      ...round,
+      completedAt: new Date().toISOString(),
+    };
+    addToHistory(completedRound);
     clearRound();
   };
 

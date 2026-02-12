@@ -22,7 +22,7 @@ const categories: { id: DrinkCategory; label: string }[] = [
 
 export function DrinkGrid({ onDrinkSelect, onCustomDrinkClick }: DrinkGridProps) {
   const [selectedCategory, setSelectedCategory] = useState<DrinkCategory>('pints');
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string>('');
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>(() => getSubcategories('pints')[0] || '');
 
   // Get subcategories for the selected category
   const subcategories = getSubcategories(selectedCategory);

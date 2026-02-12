@@ -16,24 +16,19 @@ export function SummaryPage() {
     navigate('/');
   };
 
-  // Toggle between view modes
-  const handleToggleView = () => {
-    setViewMode(prev => prev === 'by-drink' ? 'by-person' : 'by-drink');
-  };
-
   return (
     <div className="summary-page">
       <div className="summary-page-header">
         <div className="view-toggle">
           <button
             className={`view-toggle-button ${viewMode === 'by-drink' ? 'active' : ''}`}
-            onClick={handleToggleView}
+            onClick={() => setViewMode('by-drink')}
           >
             By Drink
           </button>
           <button
             className={`view-toggle-button ${viewMode === 'by-person' ? 'active' : ''}`}
-            onClick={handleToggleView}
+            onClick={() => setViewMode('by-person')}
           >
             By Person
           </button>

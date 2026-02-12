@@ -56,6 +56,9 @@ export function saveRoundHistory(history: Round[]): void {
 export function addToHistory(round: Round): void {
   const history = getRoundHistory();
   history.push(round);
+  while (history.length > 50) {
+    history.shift();
+  }
   saveRoundHistory(history);
 }
 
