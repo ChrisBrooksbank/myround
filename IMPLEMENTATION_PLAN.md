@@ -32,11 +32,11 @@
 ## Phase 3: Summary Screen
 
 - [x] Create src/components/SummaryView.tsx with by-drink and by-person views (spec: summary-and-bar.md)
-- [ ] Add tick-off functionality with strikethrough on tap and ordered state tracking (spec: summary-and-bar.md)
-- [ ] Add progress indicator showing completed vs total drinks (spec: summary-and-bar.md)
-- [ ] Create src/pages/SummaryPage.tsx with view toggle and "Done" button (spec: summary-and-bar.md)
-- [ ] Implement "Done" button to archive round (set completedAt) and navigate back (spec: summary-and-bar.md)
-- [ ] Style summary page with extra-large text for pub readability (spec: pwa-and-polish.md, summary-and-bar.md)
+- [x] Add tick-off functionality with strikethrough on tap and ordered state tracking (spec: summary-and-bar.md)
+- [x] Add progress indicator showing completed vs total drinks (spec: summary-and-bar.md)
+- [x] Create src/pages/SummaryPage.tsx with view toggle and "Done" button (spec: summary-and-bar.md)
+- [x] Implement "Done" button to archive round (set completedAt) and navigate back (spec: summary-and-bar.md)
+- [x] Style summary page with extra-large text for pub readability (spec: pwa-and-polish.md, summary-and-bar.md)
 
 ## Phase 4: Regulars & Groups
 
