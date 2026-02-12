@@ -8,7 +8,7 @@
 
 ## Phase 1: Project Scaffold
 
-- [ ] Initialize Vite + React + TypeScript project with npm create vite (spec: pwa-and-polish.md)
+- [x] Initialize Vite + React + TypeScript project with npm create vite (spec: pwa-and-polish.md)
 - [ ] Install dependencies: react-router-dom, vite-plugin-pwa, workbox-window (spec: pwa-and-polish.md)
 - [ ] Create src/types.ts with all TypeScript interfaces (spec: ordering-flow.md, summary-and-bar.md, regulars-and-groups.md)
 - [ ] Create src/data/drinks.ts with ~80-100 UK pub drinks across 7 categories (spec: drinks-database.md)
