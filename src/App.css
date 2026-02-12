@@ -350,6 +350,10 @@
   border-color: var(--color-border-hover);
 }
 
+.category-tab:active {
+  transform: scale(0.95);
+}
+
 .category-tab.active {
   color: var(--color-text-primary);
   border-color: currentColor;
@@ -413,6 +417,10 @@
 
 .subcategory-pill:hover {
   background-color: var(--color-border-hover);
+}
+
+.subcategory-pill:active {
+  transform: scale(0.95);
 }
 
 .subcategory-pill.active {

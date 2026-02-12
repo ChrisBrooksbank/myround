@@ -59,7 +59,7 @@
 
 ## Phase 6: Polish & Refinement
 
-- [ ] Add button press animations with scale transform (spec: pwa-and-polish.md)
+- [x] Add button press animations with scale transform (spec: pwa-and-polish.md)
 - [ ] Add order slide-in animations when items are added (spec: pwa-and-polish.md)
 - [ ] Implement haptic feedback (30ms vibrate) on drink button taps (spec: pwa-and-polish.md)
 - [ ] Add name input shake/focus animation when drink tapped without name (spec: ordering-flow.md)
