@@ -73,7 +73,7 @@
 - [x] App loads with full drinks database visible (spec: drinks-database.md)
 - [x] Type name + tap drink = order added, name auto-clears (spec: ordering-flow.md)
 - [x] Tap drink without name = name input shakes/focuses (spec: ordering-flow.md)
-- [ ] Same person + same drink = quantity increments (dedup works) (spec: ordering-flow.md)
+- [x] Same person + same drink = quantity increments (dedup works) (spec: ordering-flow.md)
 - [ ] "Other" button = custom drink text input works (spec: ordering-flow.md)
 - [ ] Navigate to /summary = by-drink view default, can toggle to by-person (spec: summary-and-bar.md)
 - [ ] Tap drinks on summary to tick off with strikethrough and progress update (spec: summary-and-bar.md)
