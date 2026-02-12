@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRound } from '../hooks/useRound';
+import { RegularsPicker } from '../components/RegularsPicker';
 import { NameInput } from '../components/NameInput';
 import { DrinkGrid } from '../components/DrinkGrid';
 import { OrderList } from '../components/OrderList';
@@ -99,6 +100,9 @@ export function RoundPage() {
   return (
     <div className="round-page">
       <div className="round-page-content">
+        {/* Regulars Quick-Add Bar */}
+        <RegularsPicker />
+
         {/* Name Input Section */}
         <div className="name-section">
           <NameInput

@@ -113,6 +113,139 @@
 }
 
 /* ========================================
+   REGULARS PICKER
+   ======================================== */
+
+.regulars-picker {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.regulars-scroll {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: var(--space-xs);
+}
+
+.regulars-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.regular-button {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  min-height: var(--touch-target-min);
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.regular-button:hover {
+  background-color: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+.regular-button:active {
+  transform: scale(0.95);
+}
+
+.regular-emoji {
+  font-size: var(--font-size-lg);
+  line-height: 1;
+}
+
+.regular-name {
+  white-space: nowrap;
+}
+
+/* Favorites Picker Modal */
+.favorites-picker {
+  max-width: 320px;
+}
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.favorite-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  min-height: var(--touch-target-large);
+  background-color: var(--color-bg-tertiary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.favorite-button:hover {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.favorite-button:active {
+  transform: scale(0.95);
+}
+
+.favorite-emoji {
+  font-size: var(--font-size-3xl);
+  line-height: 1;
+}
+
+.favorite-name {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.modal-close-button {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+}
+
+.modal-close-button:hover {
+  background-color: var(--color-border-hover);
+  color: var(--color-text-primary);
+}
+
+.modal-close-button:active {
+  transform: scale(0.98);
+}
+
+/* ========================================
    NAME INPUT
    ======================================== */
 
