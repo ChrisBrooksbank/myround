@@ -128,6 +128,72 @@
 }
 
 /* ========================================
+   GROUP FILTER TABS
+   ======================================== */
+
+.group-filter {
+  flex-shrink: 0;
+  overflow: hidden;
+  margin-bottom: var(--space-sm);
+}
+
+.group-filter-scroll {
+  display: flex;
+  gap: var(--space-xs);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: var(--space-xs);
+}
+
+.group-filter-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.group-filter-tab {
+  flex-shrink: 0;
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+}
+
+.group-filter-tab:hover {
+  border-color: var(--color-border-hover);
+  color: var(--color-text-primary);
+}
+
+.group-filter-tab:active {
+  transform: scale(0.95);
+}
+
+.group-filter-tab.active {
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+  border-color: var(--color-accent);
+}
+
+.group-filter-tab.active:hover {
+  background-color: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+.regulars-empty-filter {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  padding: var(--space-sm);
+  white-space: nowrap;
+}
+
+/* ========================================
    REGULARS PICKER
    ======================================== */
 

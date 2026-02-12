@@ -1,4 +1,4 @@
-// RegularsPicker: Quick-add buttons for regulars with favorite drink picker
+// RegularsPicker: Group filter tabs + quick-add buttons for regulars
 
 import { useState } from 'react';
 import { useRegulars } from '../hooks/useRegulars';
@@ -6,14 +6,25 @@ import { useRound } from '../hooks/useRound';
 import { getDrinkById } from '../data/drinks';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 
+const ALL_GROUP_ID = 'all';
+
 export function RegularsPicker() {
   const { regulars, groups } = useRegulars();
   const { addOrder } = useRound();
   const [showPicker, setShowPicker] = useState(false);
   const [selectedRegular, setSelectedRegular] = useState<string | null>(null);
+  const [selectedGroupId, setSelectedGroupId] = useState<string>(ALL_GROUP_ID);
 
   // Focus trap for favorites picker modal
   const favoritesRef = useFocusTrap(showPicker, handlePickerClose);
+
+  // Filter regulars by selected group
+  const filteredRegulars = selectedGroupId === ALL_GROUP_ID
+    ? regulars
+    : regulars.filter(r => {
+        const group = groups.find(g => g.id === selectedGroupId);
+        return group ? group.memberIds.includes(r.id) : true;
+      });
 
   // Handle regular button click
   const handleRegularClick = (regularId: string) => {
@@ -32,26 +43,6 @@ export function RegularsPicker() {
       // Show picker for multiple favorites
       setSelectedRegular(regularId);
       setShowPicker(true);
-    }
-  };
-
-  // Handle group button click - add all members' first favorites
-  const handleGroupClick = (groupId: string) => {
-    const group = groups.find(g => g.id === groupId);
-    if (!group) return;
-
-    // Add each member's first favorite drink
-    group.memberIds.forEach(memberId => {
-      const regular = regulars.find(r => r.id === memberId);
-      if (regular && regular.favouriteDrinkIds.length > 0) {
-        // Add the first favorite drink
-        addOrder(regular.name, regular.favouriteDrinkIds[0]);
-      }
-    });
-
-    // Haptic feedback
-    if (navigator.vibrate) {
-      navigator.vibrate(30);
     }
   };
 
@@ -80,32 +71,46 @@ export function RegularsPicker() {
     setSelectedRegular(null);
   }
 
-  // Don't render if no regulars and no groups
-  if (regulars.length === 0 && groups.length === 0) {
+  // Don't render if no regulars
+  if (regulars.length === 0) {
     return null;
   }
 
   // Get the selected regular for picker
   const regular = selectedRegular ? regulars.find(r => r.id === selectedRegular) : null;
 
+  // Only show group filter tabs if there are groups
+  const showGroupFilter = groups.length > 0;
+
   return (
     <>
+      {/* Group filter tabs */}
+      {showGroupFilter && (
+        <div className="group-filter">
+          <div className="group-filter-scroll">
+            <button
+              className={`group-filter-tab ${selectedGroupId === ALL_GROUP_ID ? 'active' : ''}`}
+              onClick={() => setSelectedGroupId(ALL_GROUP_ID)}
+            >
+              All
+            </button>
+            {groups.map(group => (
+              <button
+                key={group.id}
+                className={`group-filter-tab ${selectedGroupId === group.id ? 'active' : ''}`}
+                onClick={() => setSelectedGroupId(group.id)}
+              >
+                {group.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Regular buttons */}
       <div className="regulars-picker">
         <div className="regulars-scroll">
-          {/* Group buttons */}
-          {groups.map(group => (
-            <button
-              key={group.id}
-              className="regular-button group-button"
-              onClick={() => handleGroupClick(group.id)}
-            >
-              <span className="regular-emoji">👥</span>
-              <span className="regular-name">{group.name}</span>
-            </button>
-          ))}
-
-          {/* Regular buttons (alphabetical) */}
-          {[...regulars].sort((a, b) => a.name.localeCompare(b.name)).map(regular => (
+          {[...filteredRegulars].sort((a, b) => a.name.localeCompare(b.name)).map(regular => (
             <button
               key={regular.id}
               className="regular-button"
@@ -115,6 +120,9 @@ export function RegularsPicker() {
               <span className="regular-name">{regular.name}</span>
             </button>
           ))}
+          {filteredRegulars.length === 0 && (
+            <span className="regulars-empty-filter">No regulars in this group</span>
+          )}
         </div>
       </div>
 
