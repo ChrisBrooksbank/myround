@@ -7,6 +7,7 @@ import { Header } from './components/Header';
 import { RoundPage } from './pages/RoundPage';
 import { SummaryPage } from './pages/SummaryPage';
 import { RegularsPage } from './pages/RegularsPage';
+import { ReloadPrompt } from './components/ReloadPrompt';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/regulars" element={<RegularsPage />} />
               </Routes>
             </main>
+            <ReloadPrompt />
           </div>
         </RegularsProvider>
       </RoundProvider>
