@@ -977,6 +977,258 @@
 }
 
 /* ========================================
+   REGULAR EDITOR
+   ======================================== */
+
+.regular-editor {
+  max-width: 400px;
+  width: 100%;
+}
+
+.editor-section {
+  margin-bottom: var(--space-lg);
+}
+
+.editor-label {
+  display: block;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.editor-input {
+  width: 100%;
+  font-size: var(--font-size-base);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-border);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast);
+}
+
+.editor-input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.editor-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.selected-drinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.selected-drink-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  background-color: var(--color-bg-tertiary);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.chip-emoji {
+  font-size: var(--font-size-base);
+}
+
+.chip-name {
+  font-weight: 500;
+}
+
+.chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 50%;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.chip-remove:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.chip-remove:active {
+  transform: scale(0.9);
+}
+
+.editor-button-secondary {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-tertiary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+}
+
+.editor-button-secondary:hover {
+  background-color: var(--color-border-hover);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-hover);
+}
+
+.editor-button-secondary:active {
+  transform: scale(0.98);
+}
+
+.editor-button-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editor-actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.editor-delete-button {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: #e74c3c;
+  background-color: transparent;
+  border: 2px solid #e74c3c;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+}
+
+.editor-delete-button:hover {
+  background-color: #e74c3c;
+  color: var(--color-text-primary);
+}
+
+.editor-delete-button:active {
+  transform: scale(0.98);
+}
+
+/* Drink Picker Modal */
+.drink-picker-modal {
+  max-width: 400px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-input {
+  margin-bottom: var(--space-md);
+}
+
+.drink-picker-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+  max-height: 50vh;
+}
+
+.drink-picker-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background-color: var(--color-bg-primary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+  min-height: var(--touch-target-min);
+}
+
+.drink-picker-item:hover {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border-hover);
+}
+
+.drink-picker-item:active {
+  transform: scale(0.98);
+}
+
+.drink-picker-item.selected {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-primary);
+}
+
+.drink-picker-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.drink-picker-emoji {
+  font-size: var(--font-size-xl);
+  flex-shrink: 0;
+}
+
+.drink-picker-name {
+  flex: 1;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.drink-picker-check {
+  font-size: var(--font-size-xl);
+  color: var(--color-primary);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* Delete Confirmation Modal */
+.delete-confirm-modal {
+  max-width: 360px;
+}
+
+.delete-confirm-text {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-lg);
+}
+
+.delete-confirm-text strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.modal-button-danger {
+  background-color: #e74c3c;
+  color: var(--color-text-primary);
+}
+
+.modal-button-danger:hover {
+  background-color: #c0392b;
+}
+
+/* ========================================
    RESPONSIVE ADJUSTMENTS
    ======================================== */
 
