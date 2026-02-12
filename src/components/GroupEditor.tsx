@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRegulars } from '../hooks/useRegulars';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface GroupEditorProps {
   groupId?: string | null;
@@ -70,9 +71,13 @@ export function GroupEditor({ groupId, onClose }: GroupEditorProps) {
   // Check if form is valid
   const isValid = name.trim() !== '' && selectedMemberIds.length > 0;
 
+  // Focus traps for modals
+  const mainModalRef = useFocusTrap(true, onClose);
+  const deleteConfirmRef = useFocusTrap(showDeleteConfirm, () => setShowDeleteConfirm(false));
+
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content group-editor" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content group-editor" ref={mainModalRef} onClick={(e) => e.stopPropagation()}>
         <h2 className="modal-title">
           {existingGroup ? 'Edit Group' : 'Create Group'}
         </h2>
@@ -151,7 +156,7 @@ export function GroupEditor({ groupId, onClose }: GroupEditorProps) {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
-          <div className="modal-content delete-confirm-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content delete-confirm-modal" ref={deleteConfirmRef} onClick={(e) => e.stopPropagation()}>
             <h3 className="modal-title">Delete Group?</h3>
             <p className="delete-confirm-text">
               Are you sure you want to delete <strong>{name}</strong>? This cannot be undone.

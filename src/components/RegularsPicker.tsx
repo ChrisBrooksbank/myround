@@ -4,12 +4,16 @@ import { useState } from 'react';
 import { useRegulars } from '../hooks/useRegulars';
 import { useRound } from '../hooks/useRound';
 import { getDrinkById } from '../data/drinks';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 export function RegularsPicker() {
   const { regulars, groups } = useRegulars();
   const { addOrder } = useRound();
   const [showPicker, setShowPicker] = useState(false);
   const [selectedRegular, setSelectedRegular] = useState<string | null>(null);
+
+  // Focus trap for favorites picker modal
+  const favoritesRef = useFocusTrap(showPicker, handlePickerClose);
 
   // Handle regular button click
   const handleRegularClick = (regularId: string) => {
@@ -71,10 +75,10 @@ export function RegularsPicker() {
   };
 
   // Handle picker close
-  const handlePickerClose = () => {
+  function handlePickerClose() {
     setShowPicker(false);
     setSelectedRegular(null);
-  };
+  }
 
   // Don't render if no regulars and no groups
   if (regulars.length === 0 && groups.length === 0) {
@@ -117,7 +121,7 @@ export function RegularsPicker() {
       {/* Favorite Drink Picker Modal */}
       {showPicker && regular && (
         <div className="modal-overlay" onClick={handlePickerClose}>
-          <div className="modal-content favorites-picker" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content favorites-picker" ref={favoritesRef} onClick={(e) => e.stopPropagation()}>
             <h3 className="modal-title">{regular.name}'s Favorites</h3>
             <div className="favorites-grid">
               {regular.favouriteDrinkIds.map(drinkId => {

@@ -11,11 +11,15 @@ interface OrderListProps {
 
 export function OrderList({ orders, onUpdateQuantity, onRemove }: OrderListProps) {
   if (orders.length === 0) {
-    return null;
+    return (
+      <div className="order-list-empty" aria-live="polite" aria-relevant="additions removals">
+        Tap a drink to start the round
+      </div>
+    );
   }
 
   return (
-    <div className="order-list">
+    <div className="order-list" aria-live="polite" aria-relevant="additions removals">
       {orders.map((order) => (
         <OrderItem
           key={order.id}

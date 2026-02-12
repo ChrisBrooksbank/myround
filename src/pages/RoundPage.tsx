@@ -1,11 +1,13 @@
 // RoundPage: Main ordering screen integrating all ordering components
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRound } from '../hooks/useRound';
 import { RegularsPicker } from '../components/RegularsPicker';
 import { NameInput } from '../components/NameInput';
 import { DrinkGrid } from '../components/DrinkGrid';
 import { OrderList } from '../components/OrderList';
+import { useFocusTrap } from '../hooks/useFocusTrap';
+import { getDrinkById } from '../data/drinks';
 import type { Drink } from '../types';
 
 export function RoundPage() {
@@ -14,6 +16,51 @@ export function RoundPage() {
   const [shake, setShake] = useState(false);
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [customDrinkName, setCustomDrinkName] = useState('');
+
+  // aria-live announcements for order changes
+  const [announcement, setAnnouncement] = useState('');
+  const prevOrderCountRef = useRef(round.orders.length);
+
+  useEffect(() => {
+    const prevCount = prevOrderCountRef.current;
+    const currentCount = round.orders.length;
+    prevOrderCountRef.current = currentCount;
+
+    if (currentCount > prevCount) {
+      // New order added — announce the latest one
+      const latest = round.orders[round.orders.length - 1];
+      const drink = getDrinkById(latest.drinkId);
+      const drinkName = latest.customDrinkName || drink?.shortName || 'drink';
+      setAnnouncement(`Added ${drinkName} for ${latest.personName}`);
+    } else if (currentCount < prevCount) {
+      setAnnouncement('Removed order');
+    }
+  }, [round.orders]);
+
+  // Clear announcement after a short delay so repeated identical additions still announce
+  useEffect(() => {
+    if (!announcement) return;
+    const timer = setTimeout(() => setAnnouncement(''), 1000);
+    return () => clearTimeout(timer);
+  }, [announcement]);
+
+  // Derive recent drink IDs from orders (unique, excluding 'custom', last 8)
+  const recentDrinkIds = (() => {
+    const seen = new Set<string>();
+    const ids: string[] = [];
+    for (let i = round.orders.length - 1; i >= 0; i--) {
+      const drinkId = round.orders[i].drinkId;
+      if (drinkId !== 'custom' && !seen.has(drinkId)) {
+        seen.add(drinkId);
+        ids.push(drinkId);
+      }
+      if (ids.length >= 8) break;
+    }
+    return ids;
+  })();
+
+  // Focus trap for custom drink modal
+  const customModalRef = useFocusTrap(showCustomInput, handleCustomDrinkCancel);
 
   // Handle drink selection from grid
   const handleDrinkSelect = (drink: Drink) => {
@@ -92,10 +139,10 @@ export function RoundPage() {
   };
 
   // Handle custom drink cancel
-  const handleCustomDrinkCancel = () => {
+  function handleCustomDrinkCancel() {
     setCustomDrinkName('');
     setShowCustomInput(false);
-  };
+  }
 
   return (
     <div className="round-page">
@@ -119,26 +166,30 @@ export function RoundPage() {
           <DrinkGrid
             onDrinkSelect={handleDrinkSelect}
             onCustomDrinkClick={handleCustomDrinkClick}
+            recentDrinkIds={recentDrinkIds}
           />
         </div>
 
         {/* Order List Section */}
-        {round.orders.length > 0 && (
-          <div className="order-section">
-            <h2 className="order-section-title">Current Order</h2>
-            <OrderList
-              orders={round.orders}
-              onUpdateQuantity={updateQuantity}
-              onRemove={removeOrder}
-            />
-          </div>
-        )}
+        <div className="order-section">
+          <h2 className="order-section-title">Current Order</h2>
+          <OrderList
+            orders={round.orders}
+            onUpdateQuantity={updateQuantity}
+            onRemove={removeOrder}
+          />
+        </div>
+
+        {/* Visually hidden live region for screen reader announcements */}
+        <div aria-live="polite" className="sr-only">
+          {announcement}
+        </div>
       </div>
 
       {/* Custom Drink Modal */}
       {showCustomInput && (
         <div className="modal-overlay" onClick={handleCustomDrinkCancel}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content" ref={customModalRef} onClick={(e) => e.stopPropagation()}>
             <h3 className="modal-title">Custom Drink</h3>
             <input
               type="text"

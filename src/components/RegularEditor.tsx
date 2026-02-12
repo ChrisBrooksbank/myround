@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { drinks, getDrinkById } from '../data/drinks';
 import { useRegulars } from '../hooks/useRegulars';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface RegularEditorProps {
   regularId?: string | null;
@@ -83,9 +84,14 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
   // Check if form is valid
   const isValid = name.trim() !== '' && selectedDrinkIds.length > 0 && selectedDrinkIds.length <= 3;
 
+  // Focus traps for modals
+  const mainModalRef = useFocusTrap(true, onClose);
+  const drinkPickerRef = useFocusTrap(showDrinkPicker, () => setShowDrinkPicker(false));
+  const deleteConfirmRef = useFocusTrap(showDeleteConfirm, () => setShowDeleteConfirm(false));
+
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content regular-editor" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content regular-editor" ref={mainModalRef} onClick={(e) => e.stopPropagation()}>
         <h2 className="modal-title">
           {existingRegular ? 'Edit Regular' : 'Add Regular'}
         </h2>
@@ -174,7 +180,7 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
       {/* Drink Picker Modal */}
       {showDrinkPicker && (
         <div className="modal-overlay" onClick={() => setShowDrinkPicker(false)}>
-          <div className="modal-content drink-picker-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content drink-picker-modal" ref={drinkPickerRef} onClick={(e) => e.stopPropagation()}>
             <h3 className="modal-title">Select Drinks</h3>
 
             {/* Search Input */}
@@ -222,7 +228,7 @@ export function RegularEditor({ regularId, onClose }: RegularEditorProps) {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
-          <div className="modal-content delete-confirm-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content delete-confirm-modal" ref={deleteConfirmRef} onClick={(e) => e.stopPropagation()}>
             <h3 className="modal-title">Delete Regular?</h3>
             <p className="delete-confirm-text">
               Are you sure you want to delete <strong>{name}</strong>? This cannot be undone.
