@@ -77,7 +77,7 @@
 - [x] "Other" button = custom drink text input works (spec: ordering-flow.md)
 - [x] Navigate to /summary = by-drink view default, can toggle to by-person (spec: summary-and-bar.md)
 - [x] Tap drinks on summary to tick off with strikethrough and progress update (spec: summary-and-bar.md)
-- [ ] "Done" button archives round, navigates back to empty round (spec: summary-and-bar.md)
+- [x] "Done" button archives round, navigates back to empty round (spec: summary-and-bar.md)
 - [ ] Type name from previous round = "same again" suggestion appears (spec: ordering-flow.md)
 - [ ] Add regular with 2-3 favorites in /regulars (spec: regulars-and-groups.md)
 - [ ] Tap regular quick-add = favorite picker shown (spec: regulars-and-groups.md)
