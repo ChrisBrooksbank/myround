@@ -6,7 +6,7 @@ import { useRound } from '../hooks/useRound';
 import { getDrinkById } from '../data/drinks';
 
 export function RegularsPicker() {
-  const { regulars } = useRegulars();
+  const { regulars, groups } = useRegulars();
   const { addOrder } = useRound();
   const [showPicker, setShowPicker] = useState(false);
   const [selectedRegular, setSelectedRegular] = useState<string | null>(null);
@@ -28,6 +28,26 @@ export function RegularsPicker() {
       // Show picker for multiple favorites
       setSelectedRegular(regularId);
       setShowPicker(true);
+    }
+  };
+
+  // Handle group button click - add all members' first favorites
+  const handleGroupClick = (groupId: string) => {
+    const group = groups.find(g => g.id === groupId);
+    if (!group) return;
+
+    // Add each member's first favorite drink
+    group.memberIds.forEach(memberId => {
+      const regular = regulars.find(r => r.id === memberId);
+      if (regular && regular.favouriteDrinkIds.length > 0) {
+        // Add the first favorite drink
+        addOrder(regular.name, regular.favouriteDrinkIds[0]);
+      }
+    });
+
+    // Haptic feedback
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
     }
   };
 
@@ -56,8 +76,8 @@ export function RegularsPicker() {
     setSelectedRegular(null);
   };
 
-  // Don't render if no regulars
-  if (regulars.length === 0) {
+  // Don't render if no regulars and no groups
+  if (regulars.length === 0 && groups.length === 0) {
     return null;
   }
 
@@ -68,6 +88,19 @@ export function RegularsPicker() {
     <>
       <div className="regulars-picker">
         <div className="regulars-scroll">
+          {/* Group buttons */}
+          {groups.map(group => (
+            <button
+              key={group.id}
+              className="regular-button group-button"
+              onClick={() => handleGroupClick(group.id)}
+            >
+              <span className="regular-emoji">👥</span>
+              <span className="regular-name">{group.name}</span>
+            </button>
+          ))}
+
+          {/* Regular buttons */}
           {regulars.map(regular => (
             <button
               key={regular.id}

@@ -3,7 +3,7 @@
 ## Status
 
 - Planning iterations: 1
-- Build iterations: 2
+- Build iterations: 3
 - Last updated: 2026-02-12
 
 ## Phase 1: Project Scaffold
@@ -46,7 +46,7 @@
 - [x] Add multiple favorite drinks selector (array of 2-3 drinkIds) to editor (spec: regulars-and-groups.md)
 - [x] Create src/pages/RegularsPage.tsx with regular list and editor (spec: regulars-and-groups.md)
 - [x] Add groups feature: create/edit/delete groups with member selection (spec: regulars-and-groups.md)
-- [ ] Add group quick-add button to pre-fill round with members' first favorites (spec: regulars-and-groups.md)
+- [x] Add group quick-add button to pre-fill round with members' first favorites (spec: regulars-and-groups.md)
 
 ## Phase 5: PWA Configuration
 
