@@ -1,15 +1,16 @@
-// DrinkGrid component with search, category tabs, subcategory pills, drink grid, and "Other" button
+// DrinkGrid component with search, category tabs, subcategory pills, drink grid, and inline custom drink add
 
 import { useState } from 'react';
 import type { Drink, DrinkCategory } from '../types';
 import { drinks, getDrinksByCategory, getDrinksByCategoryAndSubcategory, getSubcategories, getDrinkById } from '../data/drinks';
+import { getCustomDrinks } from '../lib/storage';
 import { DrinkButton } from './DrinkButton';
 
 type TabId = DrinkCategory | 'recent';
 
 interface DrinkGridProps {
   onDrinkSelect: (drink: Drink) => void;
-  onCustomDrinkClick: () => void;
+  onCustomDrinkAdd: (drinkName: string) => void;
   recentDrinkIds?: string[];
 }
 
@@ -23,20 +24,30 @@ const categories: { id: DrinkCategory; label: string }[] = [
   { id: 'zero', label: '0%' },
 ];
 
-export function DrinkGrid({ onDrinkSelect, onCustomDrinkClick, recentDrinkIds = [] }: DrinkGridProps) {
+export function DrinkGrid({ onDrinkSelect, onCustomDrinkAdd, recentDrinkIds = [] }: DrinkGridProps) {
   const [selectedTab, setSelectedTab] = useState<TabId>('pints');
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>(() => getSubcategories('pints')[0] || '');
   const [searchQuery, setSearchQuery] = useState('');
 
   const isSearching = searchQuery.trim().length >= 2;
 
-  // Filter drinks based on search query
+  // Search both built-in and custom drinks
+  const customDrinks = getCustomDrinks();
+  const allDrinks = [...drinks, ...customDrinks];
+
   const searchResults = isSearching
-    ? drinks.filter(drink =>
+    ? allDrinks.filter(drink =>
         drink.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         drink.shortName.toLowerCase().includes(searchQuery.toLowerCase())
       ).sort((a, b) => a.shortName.localeCompare(b.shortName))
     : [];
+
+  // Check if search text exactly matches an existing drink (for showing "Add new" option)
+  const trimmedQuery = searchQuery.trim();
+  const hasExactMatch = isSearching && allDrinks.some(
+    drink => drink.name.toLowerCase() === trimmedQuery.toLowerCase() ||
+             drink.shortName.toLowerCase() === trimmedQuery.toLowerCase()
+  );
 
   // Get drinks for "Recent" tab
   const recentDrinks = selectedTab === 'recent'
@@ -76,14 +87,26 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkClick, recentDrinkIds = 
 
   return (
     <div className="drink-grid-container">
-      {/* Search Input */}
+      {/* Search Input - also used to add custom drinks */}
       <div className="drink-search-wrapper">
         <input
           type="text"
           className="drink-search-input"
-          placeholder="Search drinks..."
+          placeholder="Search or add a drink..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && trimmedQuery) {
+              // If there's an exact match, select it; otherwise add as custom
+              if (searchResults.length === 1) {
+                onDrinkSelect(searchResults[0]);
+                setSearchQuery('');
+              } else if (!hasExactMatch && trimmedQuery.length >= 2) {
+                onCustomDrinkAdd(trimmedQuery);
+                setSearchQuery('');
+              }
+            }
+          }}
         />
         {searchQuery && (
           <button
@@ -146,21 +169,23 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkClick, recentDrinkIds = 
           />
         ))}
 
-        {/* "Other" button for custom drinks */}
-        <button
-          className="drink-button other-button"
-          onClick={() => {
-            // Haptic feedback
-            if (navigator.vibrate) {
-              navigator.vibrate(30);
-            }
-            onCustomDrinkClick();
-          }}
-          aria-label="Add custom drink"
-        >
-          <span className="drink-emoji">➕</span>
-          <span className="drink-label">Other...</span>
-        </button>
+        {/* Show "Add as new drink" when searching and no exact match */}
+        {isSearching && !hasExactMatch && trimmedQuery.length >= 2 && (
+          <button
+            className="drink-button other-button"
+            onClick={() => {
+              if (navigator.vibrate) {
+                navigator.vibrate(30);
+              }
+              onCustomDrinkAdd(trimmedQuery);
+              setSearchQuery('');
+            }}
+            aria-label={`Add ${trimmedQuery} as new drink`}
+          >
+            <span className="drink-emoji">➕</span>
+            <span className="drink-label">Add "{trimmedQuery}"</span>
+          </button>
+        )}
       </div>
     </div>
   );

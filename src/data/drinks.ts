@@ -225,7 +225,15 @@ export const getSubcategories = (category: string): string[] => {
   return [...new Set(subcategories)];
 };
 
-// Helper function to find drink by id
+// Helper function to find drink by id (checks built-in and custom drinks)
 export const getDrinkById = (id: string): Drink | undefined => {
-  return drinks.find(drink => drink.id === id);
+  const builtIn = drinks.find(drink => drink.id === id);
+  if (builtIn) return builtIn;
+  // Check custom drinks in localStorage
+  try {
+    const customDrinks: Drink[] = JSON.parse(localStorage.getItem('myround_custom_drinks') || '[]');
+    return customDrinks.find(drink => drink.id === id);
+  } catch {
+    return undefined;
+  }
 };
