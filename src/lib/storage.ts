@@ -1,12 +1,13 @@
 // localStorage wrapper for MyRound data persistence
 
-import type { Round, Regular, RegularGroup } from '../types';
+import type { Round, Regular, RegularGroup, Drink } from '../types';
 
 const STORAGE_KEYS = {
   CURRENT_ROUND: 'myround_current_round',
   ROUND_HISTORY: 'myround_round_history',
   REGULARS: 'myround_regulars',
   GROUPS: 'myround_groups',
+  CUSTOM_DRINKS: 'myround_custom_drinks',
 } as const;
 
 // Helper function to safely parse JSON from localStorage
@@ -152,4 +153,26 @@ export function deleteGroup(id: string): void {
   const groups = getGroups();
   const filtered = groups.filter((g) => g.id !== id);
   saveGroups(filtered);
+}
+
+// ===== Custom Drinks =====
+
+export function getCustomDrinks(): Drink[] {
+  return safeParse<Drink[]>(STORAGE_KEYS.CUSTOM_DRINKS, []);
+}
+
+export function saveCustomDrinks(drinks: Drink[]): void {
+  safeSave(STORAGE_KEYS.CUSTOM_DRINKS, drinks);
+}
+
+export function addCustomDrink(drink: Drink): void {
+  const customs = getCustomDrinks();
+  // Don't add duplicates (by name, case-insensitive)
+  const exists = customs.some(
+    (d) => d.name.toLowerCase() === drink.name.toLowerCase()
+  );
+  if (!exists) {
+    customs.push(drink);
+    saveCustomDrinks(customs);
+  }
 }

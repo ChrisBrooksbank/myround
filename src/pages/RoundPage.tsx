@@ -6,16 +6,14 @@ import { RegularsPicker } from '../components/RegularsPicker';
 import { NameInput } from '../components/NameInput';
 import { DrinkGrid } from '../components/DrinkGrid';
 import { OrderList } from '../components/OrderList';
-import { useFocusTrap } from '../hooks/useFocusTrap';
 import { getDrinkById } from '../data/drinks';
+import { addCustomDrink, getCustomDrinks } from '../lib/storage';
 import type { Drink } from '../types';
 
 export function RoundPage() {
   const { round, addOrder, updateQuantity, removeOrder, undoCompleteRound, canUndo } = useRound();
   const [name, setName] = useState('');
   const [shake, setShake] = useState(false);
-  const [showCustomInput, setShowCustomInput] = useState(false);
-  const [customDrinkName, setCustomDrinkName] = useState('');
 
   // aria-live announcements for order changes
   const [announcement, setAnnouncement] = useState('');
@@ -44,7 +42,7 @@ export function RoundPage() {
     return () => clearTimeout(timer);
   }, [announcement]);
 
-  // Derive recent drink IDs from orders (unique, excluding 'custom', last 8)
+  // Derive recent drink IDs from orders (unique, last 8)
   const recentDrinkIds = (() => {
     const seen = new Set<string>();
     const ids: string[] = [];
@@ -58,9 +56,6 @@ export function RoundPage() {
     }
     return ids;
   })();
-
-  // Focus trap for custom drink modal
-  const customModalRef = useFocusTrap(showCustomInput, handleCustomDrinkCancel);
 
   // Handle drink selection from grid
   const handleDrinkSelect = (drink: Drink) => {
@@ -103,8 +98,8 @@ export function RoundPage() {
     setShake(false);
   };
 
-  // Handle custom drink button click
-  const handleCustomDrinkClick = () => {
+  // Handle adding a custom drink by name — saves to storage and adds order
+  const handleCustomDrinkAdd = (drinkName: string) => {
     const trimmedName = name.trim();
 
     // If no name entered, shake the input
@@ -113,36 +108,36 @@ export function RoundPage() {
       return;
     }
 
-    // Show custom drink input
-    setShowCustomInput(true);
-  };
+    // Check if this custom drink already exists in storage
+    const existingCustom = getCustomDrinks().find(
+      (d) => d.name.toLowerCase() === drinkName.toLowerCase()
+    );
 
-  // Handle custom drink submission
-  const handleCustomDrinkSubmit = () => {
-    const trimmedName = name.trim();
-    const trimmedCustomDrink = customDrinkName.trim();
+    if (existingCustom) {
+      // Already saved — use it as a normal drink
+      addOrder(trimmedName, existingCustom.id);
+    } else {
+      // Create and save the custom drink
+      const customId = 'custom-' + drinkName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const newDrink: Drink = {
+        id: customId,
+        name: drinkName,
+        shortName: drinkName,
+        emoji: '🍹',
+        category: 'custom',
+        subcategory: '',
+      };
+      addCustomDrink(newDrink);
+      addOrder(trimmedName, customId);
+    }
 
-    if (trimmedName && trimmedCustomDrink) {
-      // Add custom order (drinkId = 'custom' placeholder, actual name in customDrinkName)
-      addOrder(trimmedName, 'custom', trimmedCustomDrink);
+    setName('');
 
-      // Clear inputs
-      setName('');
-      setCustomDrinkName('');
-      setShowCustomInput(false);
-
-      // Haptic feedback
-      if (navigator.vibrate) {
-        navigator.vibrate(30);
-      }
+    // Haptic feedback
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
     }
   };
-
-  // Handle custom drink cancel
-  function handleCustomDrinkCancel() {
-    setCustomDrinkName('');
-    setShowCustomInput(false);
-  }
 
   return (
     <div className="round-page">
@@ -165,7 +160,7 @@ export function RoundPage() {
         <div className="drink-section">
           <DrinkGrid
             onDrinkSelect={handleDrinkSelect}
-            onCustomDrinkClick={handleCustomDrinkClick}
+            onCustomDrinkAdd={handleCustomDrinkAdd}
             recentDrinkIds={recentDrinkIds}
           />
         </div>
@@ -196,44 +191,6 @@ export function RoundPage() {
         </div>
       )}
 
-      {/* Custom Drink Modal */}
-      {showCustomInput && (
-        <div className="modal-overlay" onClick={handleCustomDrinkCancel}>
-          <div className="modal-content" ref={customModalRef} onClick={(e) => e.stopPropagation()}>
-            <h3 className="modal-title">Custom Drink</h3>
-            <input
-              type="text"
-              className="custom-drink-input"
-              placeholder="Enter drink name..."
-              value={customDrinkName}
-              onChange={(e) => setCustomDrinkName(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleCustomDrinkSubmit();
-                } else if (e.key === 'Escape') {
-                  handleCustomDrinkCancel();
-                }
-              }}
-              autoFocus
-            />
-            <div className="modal-buttons">
-              <button
-                className="modal-button modal-button-cancel"
-                onClick={handleCustomDrinkCancel}
-              >
-                Cancel
-              </button>
-              <button
-                className="modal-button modal-button-confirm"
-                onClick={handleCustomDrinkSubmit}
-                disabled={!customDrinkName.trim()}
-              >
-                Add Drink
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

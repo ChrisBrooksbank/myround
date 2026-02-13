@@ -1,6 +1,6 @@
 // Core data types for MyRound PWA
 
-export type DrinkCategory = 'pints' | 'wine' | 'spirits' | 'cocktails' | 'soft' | 'shots' | 'zero';
+export type DrinkCategory = 'pints' | 'wine' | 'spirits' | 'cocktails' | 'soft' | 'shots' | 'zero' | 'custom';
 
 export interface Drink {
   id: string;
