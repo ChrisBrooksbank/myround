@@ -182,3 +182,93 @@ export function addCustomDrink(drink: Drink): void {
     saveCustomDrinks(customs);
   }
 }
+
+// ===== Export / Import =====
+
+interface ExportData {
+  version: number;
+  exportedAt: string;
+  currentRound: Round | null;
+  roundHistory: Round[];
+  regulars: Regular[];
+  groups: RegularGroup[];
+  customDrinks: Drink[];
+}
+
+export function exportAllData(): string {
+  const data: ExportData = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    currentRound: getCurrentRound(),
+    roundHistory: getRoundHistory(),
+    regulars: getRegulars(),
+    groups: getGroups(),
+    customDrinks: getCustomDrinks(),
+  };
+  return JSON.stringify(data, null, 2);
+}
+
+export function importAllData(json: string): string {
+  let data: ExportData;
+  try {
+    data = JSON.parse(json);
+  } catch {
+    throw new Error('Invalid JSON file');
+  }
+
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid backup file format');
+  }
+
+  if (!('version' in data) || !('exportedAt' in data)) {
+    throw new Error('Not a MyRound backup file');
+  }
+
+  // Validate arrays
+  if (data.regulars && !Array.isArray(data.regulars)) {
+    throw new Error('Invalid regulars data');
+  }
+  if (data.groups && !Array.isArray(data.groups)) {
+    throw new Error('Invalid groups data');
+  }
+  if (data.customDrinks && !Array.isArray(data.customDrinks)) {
+    throw new Error('Invalid custom drinks data');
+  }
+  if (data.roundHistory && !Array.isArray(data.roundHistory)) {
+    throw new Error('Invalid round history data');
+  }
+
+  // Write data
+  if (data.currentRound) {
+    saveCurrentRound(data.currentRound);
+  } else {
+    clearCurrentRound();
+  }
+  safeSave(STORAGE_KEYS.ROUND_HISTORY, data.roundHistory || []);
+  safeSave(STORAGE_KEYS.REGULARS, data.regulars || []);
+  safeSave(STORAGE_KEYS.GROUPS, data.groups || []);
+  safeSave(STORAGE_KEYS.CUSTOM_DRINKS, data.customDrinks || []);
+
+  // Build summary
+  const parts: string[] = [];
+  const regularsCount = (data.regulars || []).length;
+  const groupsCount = (data.groups || []).length;
+  const customDrinksCount = (data.customDrinks || []).length;
+  const historyCount = (data.roundHistory || []).length;
+
+  if (regularsCount > 0) parts.push(`${regularsCount} regular${regularsCount !== 1 ? 's' : ''}`);
+  if (groupsCount > 0) parts.push(`${groupsCount} group${groupsCount !== 1 ? 's' : ''}`);
+  if (customDrinksCount > 0) parts.push(`${customDrinksCount} custom drink${customDrinksCount !== 1 ? 's' : ''}`);
+  if (historyCount > 0) parts.push(`${historyCount} round${historyCount !== 1 ? 's' : ''} in history`);
+
+  return parts.length > 0 ? parts.join(', ') : 'Empty backup restored';
+}
+
+export function getDataCounts(): { regulars: number; groups: number; customDrinks: number; rounds: number } {
+  return {
+    regulars: getRegulars().length,
+    groups: getGroups().length,
+    customDrinks: getCustomDrinks().length,
+    rounds: getRoundHistory().length,
+  };
+}

@@ -1,0 +1,134 @@
+/* ========================================
+   SETTINGS PAGE
+   ======================================== */
+
+.settings-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 428px;
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--space-md);
+  gap: var(--space-lg);
+}
+
+.settings-section {
+  background-color: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.settings-section-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.settings-section-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.settings-button {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.settings-button:active {
+  transform: scale(0.98);
+}
+
+.settings-button-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.settings-button-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.settings-button-import {
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+.settings-button-import:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.settings-warning {
+  font-size: var(--font-size-xs);
+  color: #e74c3c;
+  margin: 0;
+  font-weight: 500;
+}
+
+.settings-file-input {
+  display: none;
+}
+
+.settings-message {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.settings-message-success {
+  background-color: rgba(46, 204, 113, 0.15);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.settings-message-error {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+/* Data Overview */
+.data-counts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.data-count-item {
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.data-count-number {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  display: block;
+}
+
+.data-count-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}

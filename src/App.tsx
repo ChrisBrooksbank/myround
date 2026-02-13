@@ -8,6 +8,7 @@ import { RoundPage } from './pages/RoundPage';
 import { SummaryPage } from './pages/SummaryPage';
 import { RegularsPage } from './pages/RegularsPage';
 import { HistoryPage } from './pages/HistoryPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { ReloadPrompt } from './components/ReloadPrompt';
 import './App.css';
 
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/summary" element={<SummaryPage />} />
                 <Route path="/regulars" element={<RegularsPage />} />
                 <Route path="/history" element={<HistoryPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
               </Routes>
             </main>
             <ReloadPrompt />

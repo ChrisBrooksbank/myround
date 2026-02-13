@@ -39,6 +39,16 @@ export function Header() {
         >
           History
         </Link>
+        <Link
+          to="/settings"
+          className={`nav-link ${location.pathname === '/settings' ? 'active' : ''}`}
+          aria-label="Settings"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="10" cy="10" r="3" />
+            <path d="M10 1.5v2M10 16.5v2M3.4 3.4l1.4 1.4M15.2 15.2l1.4 1.4M1.5 10h2M16.5 10h2M3.4 16.6l1.4-1.4M15.2 4.8l1.4-1.4" />
+          </svg>
+        </Link>
       </nav>
     </header>
   );
