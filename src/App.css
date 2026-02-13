@@ -559,6 +559,14 @@
   line-height: 1.2;
 }
 
+.drink-button.custom {
+  border: 2px dashed var(--color-accent);
+}
+
+.drink-button.custom .drink-label {
+  color: var(--color-accent);
+}
+
 .other-button {
   background-color: var(--color-bg-tertiary);
   border-color: var(--color-accent);

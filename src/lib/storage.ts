@@ -165,6 +165,12 @@ export function saveCustomDrinks(drinks: Drink[]): void {
   safeSave(STORAGE_KEYS.CUSTOM_DRINKS, drinks);
 }
 
+export function deleteCustomDrink(id: string): void {
+  const customs = getCustomDrinks();
+  const filtered = customs.filter((d) => d.id !== id);
+  saveCustomDrinks(filtered);
+}
+
 export function addCustomDrink(drink: Drink): void {
   const customs = getCustomDrinks();
   // Don't add duplicates (by name, case-insensitive)

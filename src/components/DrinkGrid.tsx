@@ -1,9 +1,9 @@
 // DrinkGrid component with search, category tabs, subcategory pills, drink grid, and inline custom drink add
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import type { Drink, DrinkCategory } from '../types';
 import { drinks, getDrinksByCategory, getDrinksByCategoryAndSubcategory, getSubcategories, getDrinkById } from '../data/drinks';
-import { getCustomDrinks } from '../lib/storage';
+import { getCustomDrinks, deleteCustomDrink } from '../lib/storage';
 import { DrinkButton } from './DrinkButton';
 
 type TabId = DrinkCategory | 'recent';
@@ -28,10 +28,17 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkAdd, recentDrinkIds = []
   const [selectedTab, setSelectedTab] = useState<TabId>('pints');
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>(() => getSubcategories('pints')[0] || '');
   const [searchQuery, setSearchQuery] = useState('');
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleDeleteCustomDrink = useCallback((drink: Drink) => {
+    deleteCustomDrink(drink.id);
+    setRefreshKey((k) => k + 1);
+  }, []);
 
   const isSearching = searchQuery.trim().length >= 2;
 
-  // Search both built-in and custom drinks
+  // Search both built-in and custom drinks (refreshKey triggers re-read after deletion)
+  void refreshKey;
   const customDrinks = getCustomDrinks();
   const allDrinks = [...drinks, ...customDrinks];
 
@@ -166,6 +173,8 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkAdd, recentDrinkIds = []
             key={drink.id}
             drink={drink}
             onClick={onDrinkSelect}
+            isCustom={drink.category === 'custom'}
+            onDelete={handleDeleteCustomDrink}
           />
         ))}
 
