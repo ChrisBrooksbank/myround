@@ -3,6 +3,7 @@
 
 import { useRef, useCallback } from 'react';
 import type { Drink } from '../types';
+import { haptic } from '../lib/haptics';
 
 interface DrinkButtonProps {
   drink: Drink;
@@ -30,10 +31,7 @@ export function DrinkButton({ drink, onClick, isCustom, onDelete }: DrinkButtonP
     timerRef.current = setTimeout(() => {
       longPressedRef.current = true;
       timerRef.current = null;
-      // Haptic feedback (100ms) for long-press
-      if ('vibrate' in navigator) {
-        navigator.vibrate(100);
-      }
+      haptic(100);
       if (window.confirm(`Delete custom drink "${drink.name}"?`)) {
         onDelete(drink);
       }
@@ -45,10 +43,7 @@ export function DrinkButton({ drink, onClick, isCustom, onDelete }: DrinkButtonP
       longPressedRef.current = false;
       return;
     }
-    // Haptic feedback (30ms vibrate) on drink taps
-    if ('vibrate' in navigator) {
-      navigator.vibrate(30);
-    }
+    haptic();
     onClick(drink);
   };
 

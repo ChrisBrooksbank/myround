@@ -1,9 +1,10 @@
 // DrinkGrid component with search, category tabs, subcategory pills, drink grid, and inline custom drink add
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import type { Drink, DrinkCategory } from '../types';
 import { drinks, getDrinksByCategory, getDrinksByCategoryAndSubcategory, getSubcategories, getDrinkById } from '../data/drinks';
 import { getCustomDrinks, deleteCustomDrink } from '../lib/storage';
+import { haptic } from '../lib/haptics';
 import { DrinkButton } from './DrinkButton';
 
 type TabId = DrinkCategory | 'recent';
@@ -37,10 +38,10 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkAdd, recentDrinkIds = []
 
   const isSearching = searchQuery.trim().length >= 2;
 
-  // Search both built-in and custom drinks (refreshKey triggers re-read after deletion)
-  void refreshKey;
-  const customDrinks = getCustomDrinks();
-  const allDrinks = [...drinks, ...customDrinks];
+  // Re-read custom drinks when refreshKey changes (after deletion)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const customDrinks = useMemo(() => getCustomDrinks(), [refreshKey]);
+  const allDrinks = useMemo(() => [...drinks, ...customDrinks], [customDrinks]);
 
   const searchResults = isSearching
     ? allDrinks.filter(drink =>
@@ -183,9 +184,7 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkAdd, recentDrinkIds = []
           <button
             className="drink-button other-button"
             onClick={() => {
-              if (navigator.vibrate) {
-                navigator.vibrate(30);
-              }
+              haptic();
               onCustomDrinkAdd(trimmedQuery);
               setSearchQuery('');
             }}

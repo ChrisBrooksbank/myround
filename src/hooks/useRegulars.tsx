@@ -4,11 +4,7 @@ import { useState, useEffect, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
 import type { Regular, RegularGroup } from '../types';
 import { getRegulars, saveRegulars, getGroups, saveGroups } from '../lib/storage';
-
-// Generate a unique ID
-function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-}
+import { generateId } from '../lib/utils';
 
 interface RegularsContextValue {
   regulars: Regular[];
@@ -108,7 +104,7 @@ export function RegularsProvider({ children }: { children: ReactNode }) {
   return <RegularsContext.Provider value={value}>{children}</RegularsContext.Provider>;
 }
 
-// Hook to use regulars context
+// eslint-disable-next-line react-refresh/only-export-components
 export function useRegulars(): RegularsContextValue {
   const context = useContext(RegularsContext);
   if (!context) {

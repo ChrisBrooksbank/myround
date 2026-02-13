@@ -8,6 +8,7 @@ import { DrinkGrid } from '../components/DrinkGrid';
 import { OrderList } from '../components/OrderList';
 import { getDrinkById } from '../data/drinks';
 import { addCustomDrink, getCustomDrinks } from '../lib/storage';
+import { haptic } from '../lib/haptics';
 import type { Drink } from '../types';
 
 export function RoundPage() {
@@ -16,7 +17,7 @@ export function RoundPage() {
   const [shake, setShake] = useState(false);
 
   // aria-live announcements for order changes
-  const [announcement, setAnnouncement] = useState('');
+  const announcementRef = useRef<HTMLDivElement>(null);
   const prevOrderCountRef = useRef(round.orders.length);
 
   useEffect(() => {
@@ -24,23 +25,25 @@ export function RoundPage() {
     const currentCount = round.orders.length;
     prevOrderCountRef.current = currentCount;
 
+    const el = announcementRef.current;
+    if (!el) return;
+
+    let text = '';
     if (currentCount > prevCount) {
-      // New order added — announce the latest one
       const latest = round.orders[round.orders.length - 1];
       const drink = getDrinkById(latest.drinkId);
       const drinkName = latest.customDrinkName || drink?.shortName || 'drink';
-      setAnnouncement(`Added ${drinkName} for ${latest.personName}`);
+      text = `Added ${drinkName} for ${latest.personName}`;
     } else if (currentCount < prevCount) {
-      setAnnouncement('Removed order');
+      text = 'Removed order';
+    }
+
+    if (text) {
+      el.textContent = text;
+      const timer = setTimeout(() => { el.textContent = ''; }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [round.orders]);
-
-  // Clear announcement after a short delay so repeated identical additions still announce
-  useEffect(() => {
-    if (!announcement) return;
-    const timer = setTimeout(() => setAnnouncement(''), 1000);
-    return () => clearTimeout(timer);
-  }, [announcement]);
 
   // Derive recent drink IDs from orders (unique, last 8)
   const recentDrinkIds = (() => {
@@ -73,10 +76,7 @@ export function RoundPage() {
     // Clear the name input (ready for next person)
     setName('');
 
-    // Haptic feedback (if supported)
-    if (navigator.vibrate) {
-      navigator.vibrate(30);
-    }
+    haptic();
   };
 
   // Handle "same again" suggestion
@@ -85,11 +85,7 @@ export function RoundPage() {
     if (trimmedName) {
       addOrder(trimmedName, drinkId, customDrinkName);
       setName('');
-
-      // Haptic feedback
-      if (navigator.vibrate) {
-        navigator.vibrate(30);
-      }
+      haptic();
     }
   };
 
@@ -133,10 +129,7 @@ export function RoundPage() {
 
     setName('');
 
-    // Haptic feedback
-    if (navigator.vibrate) {
-      navigator.vibrate(30);
-    }
+    haptic();
   };
 
   return (
@@ -176,9 +169,7 @@ export function RoundPage() {
         </div>
 
         {/* Visually hidden live region for screen reader announcements */}
-        <div aria-live="polite" className="sr-only">
-          {announcement}
-        </div>
+        <div aria-live="polite" className="sr-only" ref={announcementRef} />
       </div>
 
       {/* Undo Toast */}

@@ -1,6 +1,6 @@
 // Name input with auto-focus, auto-clear, and "same again" suggestion
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { getLastDrinkForPerson } from '../lib/storage';
 import { getDrinkById } from '../data/drinks';
 
@@ -13,7 +13,6 @@ interface NameInputProps {
 }
 
 export function NameInput({ value, onChange, onSameAgain, shake, onShakeEnd }: NameInputProps) {
-  const [suggestion, setSuggestion] = useState<{ drinkId: string; drinkName: string; customDrinkName?: string } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Auto-focus on mount
@@ -37,34 +36,27 @@ export function NameInput({ value, onChange, onSameAgain, shake, onShakeEnd }: N
     }
   }, [shake, onShakeEnd]);
 
-  // Check for "same again" suggestion when name changes
-  useEffect(() => {
-    if (value.trim().length >= 2) {
-      const lastDrink = getLastDrinkForPerson(value);
-      if (lastDrink) {
-        // Check if it's a custom drink or a standard drink
-        if (lastDrink.customDrinkName) {
-          // Custom drink - show the custom name
-          setSuggestion({
-            drinkId: lastDrink.drinkId,
-            drinkName: lastDrink.customDrinkName,
-            customDrinkName: lastDrink.customDrinkName,
-          });
-        } else {
-          // Standard drink - look up the drink name
-          const drink = getDrinkById(lastDrink.drinkId);
-          if (drink) {
-            setSuggestion({ drinkId: lastDrink.drinkId, drinkName: drink.shortName });
-          } else {
-            setSuggestion(null);
-          }
-        }
-      } else {
-        setSuggestion(null);
-      }
-    } else {
-      setSuggestion(null);
+  // Derive "same again" suggestion from current name value
+  const suggestion = useMemo((): { drinkId: string; drinkName: string; customDrinkName?: string } | null => {
+    if (value.trim().length < 2) return null;
+
+    const lastDrink = getLastDrinkForPerson(value);
+    if (!lastDrink) return null;
+
+    if (lastDrink.customDrinkName) {
+      return {
+        drinkId: lastDrink.drinkId,
+        drinkName: lastDrink.customDrinkName,
+        customDrinkName: lastDrink.customDrinkName,
+      };
     }
+
+    const drink = getDrinkById(lastDrink.drinkId);
+    if (drink) {
+      return { drinkId: lastDrink.drinkId, drinkName: drink.shortName };
+    }
+
+    return null;
   }, [value]);
 
   const handleSuggestionClick = () => {

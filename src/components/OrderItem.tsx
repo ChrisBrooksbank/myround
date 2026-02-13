@@ -2,6 +2,7 @@
 
 import type { OrderLine } from '../types';
 import { getDrinkById } from '../data/drinks';
+import { haptic } from '../lib/haptics';
 
 interface OrderItemProps {
   order: OrderLine;
@@ -14,26 +15,17 @@ export function OrderItem({ order, onUpdateQuantity, onRemove }: OrderItemProps)
   const drinkName = order.customDrinkName || drink?.name || 'Unknown';
 
   const handleIncrement = () => {
-    // Haptic feedback
-    if (navigator.vibrate) {
-      navigator.vibrate(30);
-    }
+    haptic();
     onUpdateQuantity(order.id, order.quantity + 1);
   };
 
   const handleDecrement = () => {
-    // Haptic feedback
-    if (navigator.vibrate) {
-      navigator.vibrate(30);
-    }
+    haptic();
     onUpdateQuantity(order.id, order.quantity - 1);
   };
 
   const handleRemove = () => {
-    // Haptic feedback
-    if (navigator.vibrate) {
-      navigator.vibrate(30);
-    }
+    haptic();
     onRemove(order.id);
   };
 

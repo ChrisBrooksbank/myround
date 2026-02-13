@@ -4,11 +4,7 @@ import { useState, useEffect, useRef, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
 import type { Round, OrderLine } from '../types';
 import { getCurrentRound, saveCurrentRound, clearCurrentRound, addToHistory, removeLastFromHistory } from '../lib/storage';
-
-// Generate a unique ID
-function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-}
+import { generateId } from '../lib/utils';
 
 // Generate deduplication key for order lines
 function getDedupKey(personName: string, drinkId: string, customDrinkName?: string): string {
@@ -149,7 +145,8 @@ export function RoundProvider({ children }: { children: ReactNode }) {
     const restored = removeLastFromHistory();
     if (restored) {
       // Remove completedAt to make it a live round again
-      const { completedAt: _, ...liveRound } = restored;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { completedAt: _completedAt, ...liveRound } = restored;
       setRound(liveRound as Round);
       saveCurrentRound(liveRound as Round);
       setCanUndo(false);
@@ -180,7 +177,7 @@ export function RoundProvider({ children }: { children: ReactNode }) {
   return <RoundContext.Provider value={value}>{children}</RoundContext.Provider>;
 }
 
-// Hook to use round context
+// eslint-disable-next-line react-refresh/only-export-components
 export function useRound(): RoundContextValue {
   const context = useContext(RoundContext);
   if (!context) {

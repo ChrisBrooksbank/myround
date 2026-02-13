@@ -5,6 +5,7 @@ import { useRegulars } from '../hooks/useRegulars';
 import { useRound } from '../hooks/useRound';
 import { getDrinkById } from '../data/drinks';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import { haptic } from '../lib/haptics';
 
 const ALL_GROUP_ID = 'all';
 
@@ -34,11 +35,7 @@ export function RegularsPicker() {
     // If regular has only 1 favorite, add directly
     if (regular.favouriteDrinkIds.length === 1) {
       addOrder(regular.name, regular.favouriteDrinkIds[0]);
-
-      // Haptic feedback
-      if (navigator.vibrate) {
-        navigator.vibrate(30);
-      }
+      haptic();
     } else {
       // Show picker for multiple favorites
       setSelectedRegular(regularId);
@@ -58,11 +55,7 @@ export function RegularsPicker() {
     // Close picker
     setShowPicker(false);
     setSelectedRegular(null);
-
-    // Haptic feedback
-    if (navigator.vibrate) {
-      navigator.vibrate(30);
-    }
+    haptic();
   };
 
   // Handle picker close
