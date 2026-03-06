@@ -1,6 +1,6 @@
 // RoundPage: Main ordering screen integrating all ordering components
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useRound } from '../hooks/useRound';
 import { RegularsPicker } from '../components/RegularsPicker';
 import { NameInput } from '../components/NameInput';
@@ -46,7 +46,7 @@ export function RoundPage() {
   }, [round.orders]);
 
   // Derive recent drink IDs from orders (unique, last 8)
-  const recentDrinkIds = (() => {
+  const recentDrinkIds = useMemo(() => {
     const seen = new Set<string>();
     const ids: string[] = [];
     for (let i = round.orders.length - 1; i >= 0; i--) {
@@ -58,7 +58,7 @@ export function RoundPage() {
       if (ids.length >= 8) break;
     }
     return ids;
-  })();
+  }, [round.orders]);
 
   // Handle drink selection from grid
   const handleDrinkSelect = (drink: Drink) => {

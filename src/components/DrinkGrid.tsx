@@ -38,7 +38,8 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkAdd, recentDrinkIds = []
 
   const isSearching = searchQuery.trim().length >= 2;
 
-  // Re-read custom drinks when refreshKey changes (after deletion)
+  // Re-read custom drinks when refreshKey changes (after deletion).
+  // refreshKey is the only trigger for storage updates, so this dep is intentionally narrowed.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const customDrinks = useMemo(() => getCustomDrinks(), [refreshKey]);
   const allDrinks = useMemo(() => [...drinks, ...customDrinks], [customDrinks]);
