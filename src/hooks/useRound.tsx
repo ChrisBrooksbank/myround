@@ -25,6 +25,7 @@ interface RoundContextValue {
   clearRound: () => void;
   undoCompleteRound: () => void;
   canUndo: boolean;
+  reloadFromStorage: () => void;
 }
 
 const RoundContext = createContext<RoundContextValue | null>(null);
@@ -162,6 +163,17 @@ export function RoundProvider({ children }: { children: ReactNode }) {
     undoTimerRef.current = setTimeout(() => setCanUndo(false), 10000);
   };
 
+  // Re-read the current round from localStorage (e.g. after importing a backup)
+  const reloadFromStorage = () => {
+    setRound(getCurrentRound() ?? {
+      id: generateId(),
+      createdAt: new Date().toISOString(),
+      orders: [],
+    });
+    setCanUndo(false);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+  };
+
   const value: RoundContextValue = {
     round,
     addOrder,
@@ -172,6 +184,7 @@ export function RoundProvider({ children }: { children: ReactNode }) {
     clearRound,
     undoCompleteRound,
     canUndo,
+    reloadFromStorage,
   };
 
   return <RoundContext.Provider value={value}>{children}</RoundContext.Provider>;

@@ -2,6 +2,8 @@
 
 import { useState, useRef } from 'react';
 import { exportAllData, importAllData, getDataCounts } from '../lib/storage';
+import { useRound } from '../hooks/useRound';
+import { useRegulars } from '../hooks/useRegulars';
 import './SettingsPage.css';
 
 export function SettingsPage() {
@@ -9,6 +11,8 @@ export function SettingsPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { reloadFromStorage: reloadRound } = useRound();
+  const { reloadFromStorage: reloadRegulars } = useRegulars();
   const counts = getDataCounts();
 
   const handleExport = () => {
@@ -20,8 +24,11 @@ export function SettingsPage() {
       const a = document.createElement('a');
       a.href = url;
       a.download = `myround-backup-${date}.json`;
+      document.body.appendChild(a);
       a.click();
-      URL.revokeObjectURL(url);
+      a.remove();
+      // Revoking synchronously can cancel the download in some browsers
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
       setMessage({ type: 'success', text: 'Backup downloaded' });
     } catch {
       setMessage({ type: 'error', text: 'Failed to export data' });
@@ -43,6 +50,10 @@ export function SettingsPage() {
     try {
       const text = await pendingFile.text();
       const summary = importAllData(text);
+      // Sync in-memory state with the imported data, otherwise the UI shows stale
+      // data and the next change would overwrite the import
+      reloadRound();
+      reloadRegulars();
       setMessage({ type: 'success', text: `Restored: ${summary}` });
     } catch (err) {
       setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Import failed' });
