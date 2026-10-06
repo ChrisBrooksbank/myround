@@ -9,6 +9,7 @@ import { OrderList } from '../components/OrderList';
 import { getDrinkById } from '../data/drinks';
 import { addCustomDrink, getCustomDrinks } from '../lib/storage';
 import { haptic } from '../lib/haptics';
+import { generateId } from '../lib/utils';
 import type { Drink } from '../types';
 
 export function RoundPage() {
@@ -115,7 +116,15 @@ export function RoundPage() {
       addOrder(trimmedName, existingCustom.id);
     } else {
       // Create and save the custom drink
-      const customId = 'custom-' + drinkName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      // Build a unique id: different names can slugify the same ("Gin & Tonic" / "Gin Tonic"),
+      // and names with no ASCII letters/digits produce an empty slug
+      const slug = drinkName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      const baseId = 'custom-' + (slug || generateId());
+      const takenIds = new Set(getCustomDrinks().map(d => d.id));
+      let customId = baseId;
+      for (let n = 2; takenIds.has(customId); n++) {
+        customId = `${baseId}-${n}`;
+      }
       const newDrink: Drink = {
         id: customId,
         name: drinkName,

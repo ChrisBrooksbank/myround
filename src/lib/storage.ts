@@ -224,18 +224,32 @@ export function importAllData(json: string): string {
     throw new Error('Not a MyRound backup file');
   }
 
-  // Validate arrays
-  if (data.regulars && !Array.isArray(data.regulars)) {
+  // Validate shapes deeply enough that the app can't crash rendering them
+  const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object';
+  const isStringArray = (v: unknown) => Array.isArray(v) && v.every((x) => typeof x === 'string');
+  const isOrder = (o: unknown) =>
+    isObj(o) && typeof o.id === 'string' && typeof o.drinkId === 'string' &&
+    typeof o.personName === 'string' && typeof o.quantity === 'number';
+  const isRound = (r: unknown) =>
+    isObj(r) && typeof r.id === 'string' && Array.isArray(r.orders) && r.orders.every(isOrder);
+
+  if (data.regulars && !(Array.isArray(data.regulars) && data.regulars.every((r) =>
+    isObj(r) && typeof r.id === 'string' && typeof r.name === 'string' && isStringArray(r.favouriteDrinkIds)))) {
     throw new Error('Invalid regulars data');
   }
-  if (data.groups && !Array.isArray(data.groups)) {
+  if (data.groups && !(Array.isArray(data.groups) && data.groups.every((g) =>
+    isObj(g) && typeof g.id === 'string' && typeof g.name === 'string' && isStringArray(g.memberIds)))) {
     throw new Error('Invalid groups data');
   }
-  if (data.customDrinks && !Array.isArray(data.customDrinks)) {
+  if (data.customDrinks && !(Array.isArray(data.customDrinks) && data.customDrinks.every((d) =>
+    isObj(d) && typeof d.id === 'string' && typeof d.name === 'string' && typeof d.shortName === 'string'))) {
     throw new Error('Invalid custom drinks data');
   }
-  if (data.roundHistory && !Array.isArray(data.roundHistory)) {
+  if (data.roundHistory && !(Array.isArray(data.roundHistory) && data.roundHistory.every(isRound))) {
     throw new Error('Invalid round history data');
+  }
+  if (data.currentRound && !isRound(data.currentRound)) {
+    throw new Error('Invalid current round data');
   }
 
   // Write data
