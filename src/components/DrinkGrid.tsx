@@ -10,8 +10,9 @@ import { DrinkButton } from './DrinkButton';
 type TabId = DrinkCategory | 'recent';
 
 interface DrinkGridProps {
-  onDrinkSelect: (drink: Drink) => void;
-  onCustomDrinkAdd: (drinkName: string) => void;
+  // Return false if the order was rejected (e.g. no name entered) so the search is kept
+  onDrinkSelect: (drink: Drink) => boolean;
+  onCustomDrinkAdd: (drinkName: string) => boolean;
   recentDrinkIds?: string[];
 }
 
@@ -108,11 +109,9 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkAdd, recentDrinkIds = []
             if (e.key === 'Enter' && trimmedQuery) {
               // If there's an exact match, select it; otherwise add as custom
               if (searchResults.length === 1) {
-                onDrinkSelect(searchResults[0]);
-                setSearchQuery('');
+                if (onDrinkSelect(searchResults[0])) setSearchQuery('');
               } else if (!hasExactMatch && trimmedQuery.length >= 2) {
-                onCustomDrinkAdd(trimmedQuery);
-                setSearchQuery('');
+                if (onCustomDrinkAdd(trimmedQuery)) setSearchQuery('');
               }
             }
           }}
@@ -186,8 +185,7 @@ export function DrinkGrid({ onDrinkSelect, onCustomDrinkAdd, recentDrinkIds = []
             className="drink-button other-button"
             onClick={() => {
               haptic();
-              onCustomDrinkAdd(trimmedQuery);
-              setSearchQuery('');
+              if (onCustomDrinkAdd(trimmedQuery)) setSearchQuery('');
             }}
             aria-label={`Add ${trimmedQuery} as new drink`}
           >

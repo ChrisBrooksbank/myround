@@ -61,13 +61,13 @@ export function RoundPage() {
   }, [round.orders]);
 
   // Handle drink selection from grid
-  const handleDrinkSelect = (drink: Drink) => {
+  const handleDrinkSelect = (drink: Drink): boolean => {
     const trimmedName = name.trim();
 
     // If no name entered, shake the input
     if (!trimmedName) {
       setShake(true);
-      return;
+      return false;
     }
 
     // Add the order
@@ -77,6 +77,7 @@ export function RoundPage() {
     setName('');
 
     haptic();
+    return true;
   };
 
   // Handle "same again" suggestion
@@ -95,13 +96,13 @@ export function RoundPage() {
   };
 
   // Handle adding a custom drink by name — saves to storage and adds order
-  const handleCustomDrinkAdd = (drinkName: string) => {
+  const handleCustomDrinkAdd = (drinkName: string): boolean => {
     const trimmedName = name.trim();
 
     // If no name entered, shake the input
     if (!trimmedName) {
       setShake(true);
-      return;
+      return false;
     }
 
     // Check if this custom drink already exists in storage
@@ -130,6 +131,7 @@ export function RoundPage() {
     setName('');
 
     haptic();
+    return true;
   };
 
   return (

@@ -148,8 +148,24 @@ export function RoundProvider({ children }: { children: ReactNode }) {
       // Remove completedAt to make it a live round again
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { completedAt: _completedAt, ...liveRound } = restored;
-      setRound(liveRound as Round);
-      saveCurrentRound(liveRound as Round);
+      // Keep any orders added since completing, merging duplicates
+      const merged: Round = { ...liveRound, orders: [...liveRound.orders] };
+      for (const order of round.orders) {
+        const key = getDedupKey(order.personName, order.drinkId, order.customDrinkName);
+        const existing = merged.orders.findIndex(
+          o => getDedupKey(o.personName, o.drinkId, o.customDrinkName) === key
+        );
+        if (existing !== -1) {
+          merged.orders[existing] = {
+            ...merged.orders[existing],
+            quantity: merged.orders[existing].quantity + order.quantity,
+          };
+        } else {
+          merged.orders.push(order);
+        }
+      }
+      setRound(merged);
+      saveCurrentRound(merged);
       setCanUndo(false);
       if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
     }
