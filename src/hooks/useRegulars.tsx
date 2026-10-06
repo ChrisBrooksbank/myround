@@ -15,6 +15,7 @@ interface RegularsContextValue {
   addGroup: (name: string, memberIds: string[]) => void;
   updateGroup: (id: string, name: string, memberIds: string[]) => void;
   deleteGroup: (id: string) => void;
+  reloadFromStorage: () => void;
 }
 
 const RegularsContext = createContext<RegularsContextValue | null>(null);
@@ -90,6 +91,12 @@ export function RegularsProvider({ children }: { children: ReactNode }) {
     setGroups(prev => prev.filter(group => group.id !== id));
   };
 
+  // Re-read regulars and groups from localStorage (e.g. after importing a backup)
+  const reloadFromStorage = () => {
+    setRegulars(getRegulars());
+    setGroups(getGroups());
+  };
+
   const value: RegularsContextValue = {
     regulars,
     groups,
@@ -99,6 +106,7 @@ export function RegularsProvider({ children }: { children: ReactNode }) {
     addGroup,
     updateGroup,
     deleteGroup,
+    reloadFromStorage,
   };
 
   return <RegularsContext.Provider value={value}>{children}</RegularsContext.Provider>;

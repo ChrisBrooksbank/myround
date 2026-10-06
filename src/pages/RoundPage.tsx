@@ -9,6 +9,7 @@ import { OrderList } from '../components/OrderList';
 import { getDrinkById } from '../data/drinks';
 import { addCustomDrink, getCustomDrinks } from '../lib/storage';
 import { haptic } from '../lib/haptics';
+import { generateId } from '../lib/utils';
 import type { Drink } from '../types';
 
 export function RoundPage() {
@@ -61,13 +62,13 @@ export function RoundPage() {
   }, [round.orders]);
 
   // Handle drink selection from grid
-  const handleDrinkSelect = (drink: Drink) => {
+  const handleDrinkSelect = (drink: Drink): boolean => {
     const trimmedName = name.trim();
 
     // If no name entered, shake the input
     if (!trimmedName) {
       setShake(true);
-      return;
+      return false;
     }
 
     // Add the order
@@ -77,6 +78,7 @@ export function RoundPage() {
     setName('');
 
     haptic();
+    return true;
   };
 
   // Handle "same again" suggestion
@@ -95,13 +97,13 @@ export function RoundPage() {
   };
 
   // Handle adding a custom drink by name — saves to storage and adds order
-  const handleCustomDrinkAdd = (drinkName: string) => {
+  const handleCustomDrinkAdd = (drinkName: string): boolean => {
     const trimmedName = name.trim();
 
     // If no name entered, shake the input
     if (!trimmedName) {
       setShake(true);
-      return;
+      return false;
     }
 
     // Check if this custom drink already exists in storage
@@ -114,7 +116,15 @@ export function RoundPage() {
       addOrder(trimmedName, existingCustom.id);
     } else {
       // Create and save the custom drink
-      const customId = 'custom-' + drinkName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      // Build a unique id: different names can slugify the same ("Gin & Tonic" / "Gin Tonic"),
+      // and names with no ASCII letters/digits produce an empty slug
+      const slug = drinkName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      const baseId = 'custom-' + (slug || generateId());
+      const takenIds = new Set(getCustomDrinks().map(d => d.id));
+      let customId = baseId;
+      for (let n = 2; takenIds.has(customId); n++) {
+        customId = `${baseId}-${n}`;
+      }
       const newDrink: Drink = {
         id: customId,
         name: drinkName,
@@ -130,6 +140,7 @@ export function RoundPage() {
     setName('');
 
     haptic();
+    return true;
   };
 
   return (

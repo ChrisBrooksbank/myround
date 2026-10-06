@@ -25,6 +25,7 @@ interface RoundContextValue {
   clearRound: () => void;
   undoCompleteRound: () => void;
   canUndo: boolean;
+  reloadFromStorage: () => void;
 }
 
 const RoundContext = createContext<RoundContextValue | null>(null);
@@ -147,8 +148,24 @@ export function RoundProvider({ children }: { children: ReactNode }) {
       // Remove completedAt to make it a live round again
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { completedAt: _completedAt, ...liveRound } = restored;
-      setRound(liveRound as Round);
-      saveCurrentRound(liveRound as Round);
+      // Keep any orders added since completing, merging duplicates
+      const merged: Round = { ...liveRound, orders: [...liveRound.orders] };
+      for (const order of round.orders) {
+        const key = getDedupKey(order.personName, order.drinkId, order.customDrinkName);
+        const existing = merged.orders.findIndex(
+          o => getDedupKey(o.personName, o.drinkId, o.customDrinkName) === key
+        );
+        if (existing !== -1) {
+          merged.orders[existing] = {
+            ...merged.orders[existing],
+            quantity: merged.orders[existing].quantity + order.quantity,
+          };
+        } else {
+          merged.orders.push(order);
+        }
+      }
+      setRound(merged);
+      saveCurrentRound(merged);
       setCanUndo(false);
       if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
     }
@@ -162,6 +179,17 @@ export function RoundProvider({ children }: { children: ReactNode }) {
     undoTimerRef.current = setTimeout(() => setCanUndo(false), 10000);
   };
 
+  // Re-read the current round from localStorage (e.g. after importing a backup)
+  const reloadFromStorage = () => {
+    setRound(getCurrentRound() ?? {
+      id: generateId(),
+      createdAt: new Date().toISOString(),
+      orders: [],
+    });
+    setCanUndo(false);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+  };
+
   const value: RoundContextValue = {
     round,
     addOrder,
@@ -172,6 +200,7 @@ export function RoundProvider({ children }: { children: ReactNode }) {
     clearRound,
     undoCompleteRound,
     canUndo,
+    reloadFromStorage,
   };
 
   return <RoundContext.Provider value={value}>{children}</RoundContext.Provider>;

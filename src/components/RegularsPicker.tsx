@@ -14,7 +14,9 @@ export function RegularsPicker() {
   const { addOrder } = useRound();
   const [showPicker, setShowPicker] = useState(false);
   const [selectedRegular, setSelectedRegular] = useState<string | null>(null);
-  const [selectedGroupId, setSelectedGroupId] = useState<string>(ALL_GROUP_ID);
+  const [rawSelectedGroupId, setSelectedGroupId] = useState<string>(ALL_GROUP_ID);
+  // Fall back to "All" if the selected group has since been deleted
+  const selectedGroupId = groups.some(g => g.id === rawSelectedGroupId) ? rawSelectedGroupId : ALL_GROUP_ID;
 
   // Focus trap for favorites picker modal
   const favoritesRef = useFocusTrap(showPicker, handlePickerClose);
@@ -22,10 +24,9 @@ export function RegularsPicker() {
   // Filter regulars by selected group
   const filteredRegulars = selectedGroupId === ALL_GROUP_ID
     ? regulars
-    : regulars.filter(r => {
-        const group = groups.find(g => g.id === selectedGroupId);
-        return group ? group.memberIds.includes(r.id) : true;
-      });
+    : regulars.filter(r =>
+        groups.find(g => g.id === selectedGroupId)?.memberIds.includes(r.id)
+      );
 
   // Handle regular button click
   const handleRegularClick = (regularId: string) => {
