@@ -6,8 +6,8 @@
 
 **The pub round, sorted. In about four taps.**
 
-[![Live](https://img.shields.io/badge/🍻_Live-myround.netlify.app-e94560?style=for-the-badge)](https://myround.netlify.app)
-[![PWA](https://img.shields.io/badge/PWA-works_offline-f5a623?style=for-the-badge)](https://myround.netlify.app)
+[![Live](https://img.shields.io/badge/🍻_Live-myround-app.netlify.app-e94560?style=for-the-badge)](https://myround-app.netlify.app)
+[![PWA](https://img.shields.io/badge/PWA-works_offline-f5a623?style=for-the-badge)](https://myround-app.netlify.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-2ecc71?style=for-the-badge)](LICENSE)
 
 <img src="docs/images/demo.gif" alt="Building a round in My Round: tap regulars, pick favourites, same again, then tick drinks off at the bar" width="300" />
@@ -139,7 +139,7 @@ Deployed on **Netlify** via `netlify.toml`, and auto-deploys from `main`. Every 
 
 🍺 Cheers! 🍺
 
-[MIT License](LICENSE) · [myround.netlify.app](https://myround.netlify.app)
+[MIT License](LICENSE) · [myround-app.netlify.app](https://myround-app.netlify.app)
 
 <sub>Please drink responsibly. My Round can help you keep count of the round, but not of how many you've had.</sub>
 
