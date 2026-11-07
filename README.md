@@ -2,6 +2,10 @@
 
 # 🍺 My Round
 
+<!-- hub-link -->
+> Part of [Chris's app hub](https://chrisbrooksbank-hub.netlify.app) - a directory of all my deployed apps.
+<!-- /hub-link -->
+
 ### *"Right, what's everyone having?"*
 
 **The pub round, sorted. In about four taps.**
